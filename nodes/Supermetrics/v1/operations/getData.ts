@@ -4,9 +4,10 @@ import {OperationHandler} from './types';
 
 export const getData: OperationHandler = async (ctx, i) => {
     const dsId = ctx.getNodeParameter('dsId', i) as string;
-    const dsAccounts = ctx.getNodeParameter('dsAccounts', i, '') as string;
-    const fieldsParam = ctx.getNodeParameter('fields', i) as string[];
-    const fields   = fieldsParam.join(',');
+    const accountsParam = ctx.getNodeParameter('dsAccounts', i, '') as string | string[];
+    const accounts = Array.isArray(accountsParam) ? accountsParam.join(',') : accountsParam;
+    const fieldsParam = ctx.getNodeParameter('fields', i) as string | string[];
+    const fields = Array.isArray(fieldsParam) ? fieldsParam.join(',') : fieldsParam;
     const filter = ctx.getNodeParameter('filter', i, '') as string;
     const startDate = ctx.getNodeParameter('startDate', i, '') as string;
     const endDate = ctx.getNodeParameter('endDate', i, '') as string;
@@ -15,7 +16,7 @@ export const getData: OperationHandler = async (ctx, i) => {
     const payload: IDataObject = {
         ds_id: dsId,
         system: 'n8n',
-        ...(dsAccounts ? {ds_accounts: dsAccounts.split(',').map(s => s.trim())} : {}),
+        ...(accounts ? {ds_accounts: accounts.split(',').map(s => s.trim())} : {}),
         ...(fields ? {fields: fields.split(',').map(s => s.trim())} : {}),
         ...(filter ? {filter} : {}),
         ...dateRangeParam,

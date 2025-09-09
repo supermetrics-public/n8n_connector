@@ -6,9 +6,10 @@ const GenericFunctions_1 = require("../GenericFunctions");
 const getData = async (ctx, i) => {
     var _a, _b, _c, _d, _e;
     const dsId = ctx.getNodeParameter('dsId', i);
-    const dsAccounts = ctx.getNodeParameter('dsAccounts', i, '');
+    const accountsParam = ctx.getNodeParameter('dsAccounts', i, '');
+    const accounts = Array.isArray(accountsParam) ? accountsParam.join(',') : accountsParam;
     const fieldsParam = ctx.getNodeParameter('fields', i);
-    const fields = fieldsParam.join(',');
+    const fields = Array.isArray(fieldsParam) ? fieldsParam.join(',') : fieldsParam;
     const filter = ctx.getNodeParameter('filter', i, '');
     const startDate = ctx.getNodeParameter('startDate', i, '');
     const endDate = ctx.getNodeParameter('endDate', i, '');
@@ -16,7 +17,7 @@ const getData = async (ctx, i) => {
     const payload = {
         ds_id: dsId,
         system: 'n8n',
-        ...(dsAccounts ? { ds_accounts: dsAccounts.split(',').map(s => s.trim()) } : {}),
+        ...(accounts ? { ds_accounts: accounts.split(',').map(s => s.trim()) } : {}),
         ...(fields ? { fields: fields.split(',').map(s => s.trim()) } : {}),
         ...(filter ? { filter } : {}),
         ...dateRangeParam,

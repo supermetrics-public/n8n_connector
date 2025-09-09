@@ -1,6 +1,25 @@
 import type { INodeProperties } from 'n8n-workflow';
 
 export const descriptions: INodeProperties[] = [
+
+    {
+        displayName: 'Accounts',
+        name: 'dsAccounts',
+        type: 'multiOptions',
+        default: [],
+        placeholder: '12345,67890',
+        description: 'Comma-separated list of account IDs (if required by the data source). Use List Accounts operation to discover valid IDs for your data source.',
+        displayOptions: {
+            show: {
+                operation: ['getData', 'getFields'],
+            },
+        },
+        typeOptions: {
+            loadOptionsMethod: 'getAccounts',
+            loadOptionsDependsOn: ['dsId'],
+        },
+    },
+
     {
         displayName: 'Start Date',
         name: 'startDate',

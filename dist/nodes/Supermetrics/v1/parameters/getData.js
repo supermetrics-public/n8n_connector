@@ -3,6 +3,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.descriptions = void 0;
 exports.descriptions = [
     {
+        displayName: 'Accounts',
+        name: 'dsAccounts',
+        type: 'multiOptions',
+        default: [],
+        placeholder: '12345,67890',
+        description: 'Comma-separated list of account IDs (if required by the data source). Use List Accounts operation to discover valid IDs for your data source.',
+        displayOptions: {
+            show: {
+                operation: ['getData', 'getFields'],
+            },
+        },
+        typeOptions: {
+            loadOptionsMethod: 'getAccounts',
+            loadOptionsDependsOn: ['dsId'],
+        },
+    },
+    {
         displayName: 'Start Date',
         name: 'startDate',
         type: 'string',

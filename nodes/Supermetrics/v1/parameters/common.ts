@@ -18,43 +18,4 @@ export const descriptions: INodeProperties[] = [
         },
         required: true,
     },
-    {
-        displayName: 'Accounts',
-        name: 'dsAccounts',
-        type: 'string',
-        default: '',
-        placeholder: '12345,67890',
-        description: 'Comma-separated list of account IDs (if required by the data source). Use List Accounts operation to discover valid IDs for your data source.',
-        displayOptions: {
-            show: {
-                operation: ['getData', 'getFields'],
-            },
-        },
-    },
-    {
-        displayName: 'Users',
-        name: 'dsUsers',
-        type: 'string',
-        default: '',
-        placeholder: 'user@example.com,user2@example.com',
-        description: 'Comma-separated list of login usernames to target.',
-        displayOptions: {
-            show: {
-                operation: [''],
-            },
-        },
-    },
-    {
-        displayName: 'Segments',
-        name: 'dsSegments',
-        type: 'string',
-        default: '',
-        placeholder: 'segment1,segment2',
-        description: 'Comma-separated list of segment IDs (if supported by the data source).',
-        displayOptions: {
-            show: {
-                operation: [''],
-            },
-        },
-    },
 ];
