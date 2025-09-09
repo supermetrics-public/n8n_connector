@@ -5,7 +5,8 @@ import {OperationHandler} from './types';
 export const getData: OperationHandler = async (ctx, i) => {
     const dsId = ctx.getNodeParameter('dsId', i) as string;
     const dsAccounts = ctx.getNodeParameter('dsAccounts', i, '') as string;
-    const fields = ctx.getNodeParameter('fields', i) as string;
+    const fieldsParam = ctx.getNodeParameter('fields', i) as string[];
+    const fields   = fieldsParam.join(',');
     const filter = ctx.getNodeParameter('filter', i, '') as string;
     const startDate = ctx.getNodeParameter('startDate', i, '') as string;
     const endDate = ctx.getNodeParameter('endDate', i, '') as string;

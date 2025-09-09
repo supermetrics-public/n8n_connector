@@ -29,8 +29,8 @@ export const descriptions: INodeProperties[] = [
     {
         displayName: 'Fields',
         name: 'fields',
-        type: 'string',
-        default: '',
+        type: 'multiOptions',
+        default: [],
         placeholder: 'date,impressions,clicks',
         description:
             'Comma-separated field IDs. Use List Fields operation to discover valid IDs for your data source.',
@@ -38,6 +38,10 @@ export const descriptions: INodeProperties[] = [
             show: {
                 operation: ['getData'],
             },
+        },
+        typeOptions: {
+            loadOptionsMethod: 'getFields',
+            loadOptionsDependsOn: ['dsId'],
         },
         required: true,
     },

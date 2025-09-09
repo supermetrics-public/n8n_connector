@@ -7,8 +7,47 @@ const getAccounts_1 = require("./operations/getAccounts");
 const getSegments_1 = require("./operations/getSegments");
 const getDataSources_1 = require("./operations/getDataSources");
 const versionDescription_1 = require("./versionDescription");
+const GenericFunctions_1 = require("./GenericFunctions");
 class SupermetricsV1 {
     constructor(baseDescription) {
+        this.methods = {
+            loadOptions: {
+                async getDataSources() {
+                    var _a, _b;
+                    const res = await this.helpers.httpRequest({
+                        method: 'GET',
+                        url: 'https://api.supermetrics.com/datasource/search',
+                        json: true,
+                    });
+                    const list = (_b = (_a = res === null || res === void 0 ? void 0 : res.data) === null || _a === void 0 ? void 0 : _a.list) !== null && _b !== void 0 ? _b : [];
+                    return list.map((ds) => {
+                        var _a;
+                        return ({
+                            name: ds.name,
+                            value: ds.id,
+                            description: (_a = ds.description) !== null && _a !== void 0 ? _a : '',
+                        });
+                    });
+                },
+                async getFields() {
+                    var _a;
+                    const dsId = this.getNodeParameter('dsId', 0);
+                    if (!dsId)
+                        return [];
+                    const payload = { ds_id: dsId };
+                    const res = await GenericFunctions_1.supermetricsGetRequest.call(this, '/query/fields', payload);
+                    const fields = ((_a = res === null || res === void 0 ? void 0 : res.data) !== null && _a !== void 0 ? _a : []);
+                    return fields.map((f) => {
+                        var _a, _b;
+                        return ({
+                            name: `${(_a = f.field_name) !== null && _a !== void 0 ? _a : f.field_id} (${f.field_type})`,
+                            value: f.field_id,
+                            description: (_b = f.description) !== null && _b !== void 0 ? _b : '',
+                        });
+                    });
+                },
+            },
+        };
         this.description = {
             ...baseDescription,
             ...versionDescription_1.versionDescription,

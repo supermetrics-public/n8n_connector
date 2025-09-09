@@ -7,7 +7,8 @@ const getData = async (ctx, i) => {
     var _a, _b, _c, _d, _e;
     const dsId = ctx.getNodeParameter('dsId', i);
     const dsAccounts = ctx.getNodeParameter('dsAccounts', i, '');
-    const fields = ctx.getNodeParameter('fields', i);
+    const fieldsParam = ctx.getNodeParameter('fields', i);
+    const fields = fieldsParam.join(',');
     const filter = ctx.getNodeParameter('filter', i, '');
     const startDate = ctx.getNodeParameter('startDate', i, '');
     const endDate = ctx.getNodeParameter('endDate', i, '');

@@ -3,7 +3,9 @@ import {
     INodeExecutionData,
     INodeType,
     INodeTypeDescription,
-    INodeTypeBaseDescription
+    INodeTypeBaseDescription,
+    ILoadOptionsFunctions,
+    IDataObject
 } from 'n8n-workflow';
 import {getData} from './operations/getData';
 import {getFields} from './operations/getFields';
@@ -11,6 +13,7 @@ import {getAccounts} from './operations/getAccounts';
 import {getSegments} from './operations/getSegments';
 import {getDataSources} from './operations/getDataSources';
 import {versionDescription} from './versionDescription';
+import { supermetricsGetRequest} from './GenericFunctions';
 
 export class SupermetricsV1 implements INodeType {
     description: INodeTypeDescription;
@@ -21,6 +24,39 @@ export class SupermetricsV1 implements INodeType {
             ...versionDescription,
         };
     }
+
+    methods = {
+        loadOptions: {
+
+            async getDataSources(this: ILoadOptionsFunctions) {
+                const res = await this.helpers.httpRequest({
+                    method: 'GET',
+                    url: 'https://api.supermetrics.com/datasource/search',
+                    json: true,
+                });
+
+                const list = res?.data?.list ?? [];
+                return list.map((ds: any) => ({
+                    name: ds.name,
+                    value: ds.id,
+                    description: ds.description ?? '',
+                }));
+            },
+
+            async getFields(this: ILoadOptionsFunctions) {
+                const dsId = this.getNodeParameter('dsId', 0) as string;
+                if (!dsId) return [];
+                const payload: IDataObject = {ds_id: dsId};
+                const res = await supermetricsGetRequest.call(this, '/query/fields', payload);
+                const fields = (res?.data ?? []) as Array<Record<string, string>>;
+                return fields.map((f) => ({
+                    name: `${f.field_name ?? f.field_id} (${f.field_type})`,
+                    value: f.field_id,
+                    description: f.description ?? '',
+                }));
+            },
+        },
+    };
 
     async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
         const items = this.getInputData();
