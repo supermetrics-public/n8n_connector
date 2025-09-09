@@ -1,0 +1,20 @@
+{
+  "node": "n8n-nodes-base.supermetrics",
+  "nodeVersion": "1.0",
+  "codexVersion": "1.0",
+  "categories": ["Marketing & Content", "Analytics"],
+  "resources": {
+    "credentialDocumentation": [
+      {
+        "url": "https://supermetrics.com/docs/product-api-authentication/"
+      }
+    ],
+    "primaryDocumentation": [
+      {
+        "url": "https://supermetrics.com/docs/product-api-getting-started/"
+      }
+    ],
+    "generic": [
+    ]
+  }
+}
