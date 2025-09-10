@@ -1,5 +1,5 @@
 import {IDataObject, INodeExecutionData, NodeApiError, JsonObject} from 'n8n-workflow';
-import {supermetricsPostRequest, supermetricsRequest, mapDefaultJsonRowsToItems} from '../GenericFunctions';
+import {supermetricsPostRequest, supermetricsRequest, mapDefaultJsonRowsToItems} from '../genericFunctions';
 import {OperationHandler} from './types';
 
 export const getData: OperationHandler = async (ctx, i) => {

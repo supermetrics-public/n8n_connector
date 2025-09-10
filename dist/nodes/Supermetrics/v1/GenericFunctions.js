@@ -107,7 +107,7 @@ async function supermetricsPostRequest(endpoint, payload = {}, options = {}) {
  * it’s likely split by column (pivoted) and isn’t mapped here.
  */
 function mapDefaultJsonRowsToItems(apiResponse) {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g;
     const items = [];
     if (!(apiResponse === null || apiResponse === void 0 ? void 0 : apiResponse.data) || !Array.isArray(apiResponse.data))
         return items;
@@ -116,13 +116,13 @@ function mapDefaultJsonRowsToItems(apiResponse) {
     for (const f of fields) {
         if (typeof (f === null || f === void 0 ? void 0 : f.data_column) === 'number') {
             // prefer requested id; fall back to internal field_id
-            indexToKey[f.data_column] = (_e = (_d = f === null || f === void 0 ? void 0 : f.id) !== null && _d !== void 0 ? _d : f === null || f === void 0 ? void 0 : f.field_id) !== null && _e !== void 0 ? _e : `col_${f.data_column}`;
+            indexToKey[f.data_column] = (_f = (_e = (_d = f === null || f === void 0 ? void 0 : f.field_name) !== null && _d !== void 0 ? _d : f === null || f === void 0 ? void 0 : f.id) !== null && _e !== void 0 ? _e : f === null || f === void 0 ? void 0 : f.field_id) !== null && _f !== void 0 ? _f : `col_${f.data_column}`;
         }
     }
     for (const row of apiResponse.data) {
         const obj = {};
         for (let i = 0; i < row.length; i++) {
-            const key = (_f = indexToKey[i]) !== null && _f !== void 0 ? _f : `col_${i}`;
+            const key = (_g = indexToKey[i]) !== null && _g !== void 0 ? _g : `col_${i}`;
             obj[key] = row[i];
         }
         items.push(obj);

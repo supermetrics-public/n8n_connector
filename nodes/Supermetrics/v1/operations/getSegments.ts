@@ -1,5 +1,5 @@
 import {IDataObject, INodeExecutionData} from 'n8n-workflow';
-import {supermetricsGetRequest} from '../GenericFunctions';
+import {supermetricsGetRequest} from '../genericFunctions';
 import {OperationHandler} from './types';
 
 export const getSegments: OperationHandler = async (ctx, i) => {

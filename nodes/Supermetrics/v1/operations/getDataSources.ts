@@ -1,17 +1,9 @@
-import {IHttpRequestOptions, INodeExecutionData, NodeApiError, JsonObject} from 'n8n-workflow';
-import {OperationHandler} from './types';
+// nodes/Supermetrics/operations/getDataSources.ts
+import type { OperationHandler } from './types';
+import type { INodeExecutionData } from 'n8n-workflow';
+import { fetchDataSources } from '../fetchers';
 
 export const getDataSources: OperationHandler = async (ctx) => {
-    try {
-        const req: IHttpRequestOptions = {
-            method: 'GET',
-            url: 'https://api.supermetrics.com/datasource/search',
-            json: true,
-        };
-
-        const res = await ctx.helpers.httpRequest(req);
-        return (res.data.list as any[]).map(row => ({json: row})) as INodeExecutionData[];
-    } catch (error) {
-        throw new NodeApiError(ctx.getNode(), (error as any) as JsonObject);
-    }
+    const list = await fetchDataSources.call(ctx);
+    return (list as any[]).map((row) => ({ json: row })) as INodeExecutionData[];
 };

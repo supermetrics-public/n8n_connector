@@ -1,10 +1,8 @@
-import {IDataObject, INodeExecutionData} from 'n8n-workflow';
-import {supermetricsGetRequest} from '../GenericFunctions';
-import {OperationHandler} from './types';
+import type { OperationHandler } from './types';
+import { fetchFields } from '../fetchers';
 
 export const getFields: OperationHandler = async (ctx, i) => {
     const dsId = ctx.getNodeParameter('dsId', i) as string;
-    const payload: IDataObject = {ds_id: dsId};
-    const res = await supermetricsGetRequest.call(ctx, '/query/fields', payload);
-    return (res?.data ?? []).map((f: any) => ({json: f})) as INodeExecutionData[];
+    const fields = await fetchFields.call(ctx, dsId);
+    return fields.map((f: any) => ({ json: f }));
 };

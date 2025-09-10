@@ -159,7 +159,7 @@ export function mapDefaultJsonRowsToItems(apiResponse: any): IDataObject[] {
     for (const f of fields) {
         if (typeof f?.data_column === 'number') {
             // prefer requested id; fall back to internal field_id
-            indexToKey[f.data_column] = f?.id ?? f?.field_id ?? `col_${f.data_column}`;
+            indexToKey[f.data_column] = f?.field_name ??  f?.id ?? f?.field_id ?? `col_${f.data_column}`;
         }
     }
 

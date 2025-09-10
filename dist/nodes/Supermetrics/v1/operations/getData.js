@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getData = void 0;
 const n8n_workflow_1 = require("n8n-workflow");
-const GenericFunctions_1 = require("../GenericFunctions");
+const genericFunctions_1 = require("../genericFunctions");
 const getData = async (ctx, i) => {
     var _a, _b, _c, _d, _e;
     const dsId = ctx.getNodeParameter('dsId', i);
@@ -24,14 +24,14 @@ const getData = async (ctx, i) => {
         settings: { no_headers: true, no_json_keys: true, round_metrics_to: 4 },
     };
     try {
-        const res = await GenericFunctions_1.supermetricsPostRequest.call(ctx, '/query/data/json', payload);
+        const res = await genericFunctions_1.supermetricsPostRequest.call(ctx, '/query/data/json', payload);
         const out = [];
-        for (const r of (0, GenericFunctions_1.mapDefaultJsonRowsToItems)(res))
+        for (const r of (0, genericFunctions_1.mapDefaultJsonRowsToItems)(res))
             out.push({ json: r });
         let nextUrl = (_b = (_a = res === null || res === void 0 ? void 0 : res.meta) === null || _a === void 0 ? void 0 : _a.paginate) === null || _b === void 0 ? void 0 : _b.next;
         while (nextUrl) {
-            const page = await GenericFunctions_1.supermetricsRequest.call(ctx, 'GET', nextUrl);
-            for (const r of (0, GenericFunctions_1.mapDefaultJsonRowsToItems)(page))
+            const page = await genericFunctions_1.supermetricsRequest.call(ctx, 'GET', nextUrl);
+            for (const r of (0, genericFunctions_1.mapDefaultJsonRowsToItems)(page))
                 out.push({ json: r });
             nextUrl = (_e = (_d = (_c = page === null || page === void 0 ? void 0 : page.meta) === null || _c === void 0 ? void 0 : _c.paginate) === null || _d === void 0 ? void 0 : _d.next) !== null && _e !== void 0 ? _e : null;
         }

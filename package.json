@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Supermetrics API node for n8n",
   "license": "MIT",
+  "keywords": [
+    "n8n-community-node-package"
+  ],
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"

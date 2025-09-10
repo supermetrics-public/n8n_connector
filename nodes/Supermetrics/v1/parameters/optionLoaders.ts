@@ -1,15 +1,10 @@
-import type { ILoadOptionsFunctions, IDataObject, INodePropertyOptions } from 'n8n-workflow';
-import { supermetricsGetRequest } from '../GenericFunctions';
+// nodes/Supermetrics/loadOptions.ts
+import type { ILoadOptionsFunctions, INodePropertyOptions } from 'n8n-workflow';
+import { fetchDataSources, fetchFields, fetchAccounts } from '../fetchers';
 
 export const loadOptions = {
     async getDataSources(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
-        const res = await this.helpers.httpRequest({
-            method: 'GET',
-            url: 'https://api.supermetrics.com/datasource/search',
-            json: true,
-        });
-
-        const list = res?.data?.list ?? [];
+        const list = await fetchDataSources.call(this);
         return list.map((ds: any) => ({
             name: ds.name,
             value: ds.id,
@@ -20,10 +15,8 @@ export const loadOptions = {
     async getFields(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
         const dsId = this.getNodeParameter('dsId', 0) as string;
         if (!dsId) return [];
-        const payload: IDataObject = { ds_id: dsId };
-        const res = await supermetricsGetRequest.call(this, '/query/fields', payload);
-        const fields = (res?.data ?? []) as Array<Record<string, string>>;
-        return fields.map((f) => ({
+        const fields = await fetchFields.call(this, dsId);
+        return fields.map((f: any) => ({
             name: `${f.field_name ?? f.field_id} (${f.field_type})`,
             value: f.field_id,
             description: f.description ?? '',
@@ -33,20 +26,10 @@ export const loadOptions = {
     async getAccounts(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
         const dsId = this.getNodeParameter('dsId', 0) as string;
         if (!dsId) return [];
-
-        // Supermetrics /query/accounts expects { ds_id } via ?json=
-        const payload: IDataObject = { ds_id: dsId };
-
-        const res = await this.helpers.httpRequestWithAuthentication!.call(this, 'supermetricsApi', {
-            method: 'GET',
-            url: 'https://api.supermetrics.com/enterprise/v2/query/accounts',
-            json: true,
-            qs: { json: JSON.stringify(payload) },
-        });
-
+        const data = await fetchAccounts.call(this, dsId);
         const out: INodePropertyOptions[] = [];
-        for (const login of (res?.data ?? []) as any[]) {
-            for (const acc of (login?.accounts ?? []) as any[]) {
+        for (const login of data as any[]) {
+            for (const acc of login?.accounts ?? []) {
                 out.push({
                     name: acc.account_name || String(acc.account_id),
                     value: String(acc.account_id),
