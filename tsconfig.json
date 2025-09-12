@@ -1,15 +1,20 @@
 {
   "compilerOptions": {
-    "lib": ["es2021"],
+    "target": "ES2019",                        // n8n runs on Node 18+, ES2019 is safe
     "module": "commonjs",
-    "target": "es2019",
-    "outDir": "dist",
-    "rootDir": ".",
-    "declaration": false,
+    "lib": ["ES2020"],
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    "outDir": "dist",                          // compiled JS goes here
+    "rootDir": "src",                          // source folder
+    "declaration": false,                      // no .d.ts needed for n8n nodes
+    "sourceMap": false,                        // keep builds clean
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["nodes/**/*.ts", "credentials/**/*.ts"]
+  "include": ["src/**/*.ts"],                  // compile all TS in src/
+  "exclude": ["node_modules", "dist"]          // skip deps & build folder
 }

@@ -1,22 +1,30 @@
 {
   "name": "n8n-nodes-supermetrics",
-  "version": "0.1.0",
-  "description": "Supermetrics API node for n8n",
+  "version": "0.1.1",
+  "description": "Supermetrics node for n8n",
+  "author": "",
   "license": "MIT",
+  "type": "commonjs",
   "keywords": [
-    "n8n-community-node-package"
+    "n8n-community-node",
+    "n8n-community-node-package",
+    "n8n-nodes",
+    "supermetrics"
   ],
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "peerDependencies": {
     "n8n-core": "^1.0.0",
     "n8n-workflow": "^1.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.4.0",
-    "@types/node": "^20.0.0"
+    "@types/node": "^20.0.0",
+    "typescript": "^5.9.2"
   },
   "n8n": {
     "nodes": [
