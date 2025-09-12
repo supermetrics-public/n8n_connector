@@ -13,7 +13,9 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint . --ext .ts,package.json",
+    "lintfix": "eslint . --ext .ts,package.json --fix"
   },
   "files": [
     "dist/**/*"
@@ -24,6 +26,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "@typescript-eslint/parser": "^8.43.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-n8n-nodes-base": "^1.16.3",
     "typescript": "^5.9.2"
   },
   "n8n": {
@@ -31,7 +36,7 @@
       "dist/nodes/Supermetrics/Supermetrics.node.js"
     ],
     "credentials": [
-       "dist/credentials/SupermetricsApi.credentials.js"
+      "dist/credentials/SupermetricsApi.credentials.js"
     ]
   }
 }

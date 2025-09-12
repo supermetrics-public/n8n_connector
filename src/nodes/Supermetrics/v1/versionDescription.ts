@@ -8,7 +8,7 @@ export const versionDescription: INodeTypeDescription =
         name: 'supermetrics',
         icon: 'file:smicon.svg',
         group: ['transform'],
-        version: 1,
+        version: [1],
         description: 'Query marketing data using Supermetrics',
         subtitle: '={{$parameter["operation"]}}',
         defaults: {name: 'Supermetrics'},

@@ -6,6 +6,7 @@ import {
     IHttpRequestOptions,
     IHttpRequestMethods,
     JsonObject,
+    sleep,
 } from 'n8n-workflow';
 
 const BASE = 'https://api.supermetrics.com/enterprise/v2';
@@ -79,7 +80,7 @@ export async function supermetricsRequest(
             if (transient && attempt < maxRetries) {
                 const jitter = Math.floor(Math.random() * 100);
                 const delay = retryAfterMs ?? (baseDelayMs * Math.pow(2, attempt) + jitter);
-                await new Promise((r) => setTimeout(r, delay));
+                await sleep(delay);
                 attempt++;
                 continue;
             }
