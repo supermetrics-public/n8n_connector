@@ -3,12 +3,12 @@ import type { INodeProperties } from 'n8n-workflow';
 export const descriptions: INodeProperties[] = [
 
     {
-        displayName: 'Accounts',
+        displayName: 'Account Names or IDs',
         name: 'dsAccounts',
         type: 'multiOptions',
         default: [],
         placeholder: '12345,67890',
-        description: 'Comma-separated list of account IDs (if required by the data source). Use List Accounts operation to discover valid IDs for your data source.',
+        description: 'Comma-separated list of account IDs (if required by the data source). Use List Accounts operation to discover valid IDs for your data source. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
         displayOptions: {
             show: {
                 operation: ['getData', 'getFields'],
@@ -31,6 +31,7 @@ export const descriptions: INodeProperties[] = [
                 operation: ['getData'],
             },
         },
+        required: true,
     },
     {
         displayName: 'End Date',
@@ -43,16 +44,16 @@ export const descriptions: INodeProperties[] = [
                 operation: ['getData'],
             },
         },
+        required: true,
     },
 
     {
-        displayName: 'Fields',
+        displayName: 'Field Names or IDs',
         name: 'fields',
         type: 'multiOptions',
         default: [],
         placeholder: 'date,impressions,clicks',
-        description:
-            'Comma-separated field IDs. Use List Fields operation to discover valid IDs for your data source.',
+        description: 'Comma-separated field IDs. Use List Fields operation to discover valid IDs for your data source. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
         displayOptions: {
             show: {
                 operation: ['getData'],
@@ -70,7 +71,7 @@ export const descriptions: INodeProperties[] = [
         type: 'string',
         default: '',
         placeholder: 'impressions > 0 AND clicks > 0',
-        description: 'Optional filter string. Must follow the format "X >= 10 AND ctr <= 20 AND Y =@ Super Campaign", where X and Y must be from the field list for the same data source. ',
+        description: 'Optional filter string. Must follow the format "X >= 10 AND ctr <= 20 AND Y =@ Super Campaign", where X and Y must be from the field list for the same data source.',
         displayOptions: {
             show: {
                 operation: ['getData'],

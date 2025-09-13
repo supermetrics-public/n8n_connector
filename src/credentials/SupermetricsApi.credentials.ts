@@ -8,6 +8,7 @@ import {
 export class SupermetricsApi implements ICredentialType {
     name = 'supermetricsApi';
     displayName = 'Supermetrics API';
+    // eslint-disable-next-line n8n-nodes-base/cred-class-field-documentation-url-miscased
     documentationUrl = 'https://supermetrics.com/docs/product-api-authentication';
     properties: INodeProperties[] = [
         {
@@ -16,8 +17,7 @@ export class SupermetricsApi implements ICredentialType {
             type: 'string',
             typeOptions: { password: true },
             default: '',
-            description:
-                'Your Supermetrics API key.',
+            description: 'Your Supermetrics API key',
         },
     ];
 

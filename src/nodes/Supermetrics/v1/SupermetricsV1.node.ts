@@ -4,6 +4,7 @@ import {
     INodeType,
     INodeTypeDescription,
     INodeTypeBaseDescription,
+    NodeOperationError
 } from 'n8n-workflow';
 import {getData} from './operations/getData';
 import {getFields} from './operations/getFields';
@@ -40,7 +41,9 @@ export class SupermetricsV1 implements INodeType {
         };
 
         const handler = handlers[operation];
-        if (!handler) throw new Error(`Unknown operation: ${operation}`);
+        if (!handler) {
+            throw new NodeOperationError(this.getNode(),`Unknown operation: ${operation}`);
+        }
 
         const all: INodeExecutionData[] = [];
         for (let i = 0; i < items.length; i++) {

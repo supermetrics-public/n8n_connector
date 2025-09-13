@@ -1,4 +1,5 @@
-import {NodeConnectionType, INodeTypeDescription} from 'n8n-workflow';
+/* eslint-disable n8n-nodes-base/node-filename-against-convention */
+import { NodeConnectionType, INodeTypeDescription } from 'n8n-workflow';
 import {descriptions as commonParameters} from './parameters/common';
 import {descriptions as getDataParameters} from './parameters/getData';
 
@@ -13,20 +14,21 @@ export const versionDescription: INodeTypeDescription =
         subtitle: '={{$parameter["operation"]}}',
         defaults: {name: 'Supermetrics'},
         usableAsTool: true,
-        inputs: [NodeConnectionType.Main],
-        outputs: [NodeConnectionType.Main],
+        inputs: ['main'] as NodeConnectionType[],
+        outputs: ['main'] as NodeConnectionType[],
         credentials: [{name: 'supermetricsApi', required: true}],
         properties: [
             {
                 displayName: 'Operation',
                 name: 'operation',
                 type: 'options',
+				noDataExpression: true,
                 options: [
-                    {name: 'List Data Sources', value: 'getDataSources', action: 'getDataSources'},
-                    {name: 'List Fields', value: 'getFields', action: 'getFields'},
-                    {name: 'List Accounts', value: 'getAccounts', action: "getAccounts"},
-                    {name: 'List Segments', value: 'getSegments', action: 'getSegments'},
-                    {name: 'Get Data', value: 'getData', action: 'getData'},
+                    {name: 'Get Data', value: 'getData', action: 'Get data'},
+                    {name: 'List Accounts', value: 'getAccounts', action: 'Get accounts'},
+                    {name: 'List Data Sources', value: 'getDataSources', action: 'Get data sources'},
+                    {name: 'List Fields', value: 'getFields', action: 'Get fields'},
+                    {name: 'List Segments', value: 'getSegments', action: 'Get segments'},
                 ],
                 default: 'getData',
             },
