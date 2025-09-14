@@ -28,7 +28,6 @@ export const versionDescription: INodeTypeDescription =
                     {name: 'List Accounts', value: 'getAccounts', action: 'Get accounts'},
                     {name: 'List Data Sources', value: 'getDataSources', action: 'Get data sources'},
                     {name: 'List Fields', value: 'getFields', action: 'Get fields'},
-                    {name: 'List Segments', value: 'getSegments', action: 'Get segments'},
                 ],
                 default: 'getData',
             },
