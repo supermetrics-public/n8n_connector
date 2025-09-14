@@ -10,8 +10,7 @@ import {
 } from 'n8n-workflow';
 
 const BASE = 'https://api.supermetrics.com/enterprise/v2';
-const CACHE_DEFAULT_TTL_SECONDS = 3600;
-const debugMode = true;
+import {CACHE_DEFAULT_TTL_SECONDS, DEBUG_MODE} from './constants';
 
 /**
  * Low-level request helper that ensures auth and sensible defaults.
@@ -97,7 +96,7 @@ export async function supermetricsRequest(
                 message:
                     'Supermetrics request error: ' +
                     (errorInfo.description || errorInfo.message || errorInfo.code || '') +
-                    (debugMode ? ' ' + (body ? JSON.stringify(body) : JSON.stringify(qs)):''),
+                    (DEBUG_MODE ? ' ' + (body ? JSON.stringify(body) : JSON.stringify(qs)) : ''),
             });
         }
 
@@ -108,7 +107,7 @@ export async function supermetricsRequest(
                 message:
                     'Supermetrics query error: ' +
                     (errorInfo.description || errorInfo.message || errorInfo.code || '')
-                    (debugMode ? ' ' + (body ? JSON.stringify(body) : JSON.stringify(qs)):''),
+                    (DEBUG_MODE ? ' ' + (body ? JSON.stringify(body) : JSON.stringify(qs)) : ''),
             });
         }
 
@@ -220,3 +219,8 @@ function cacheSet(key: string, value: any, ttlMs: number) {
     CACHE[key] = {value, expires: Date.now() + ttlMs};
 }
 
+export function smLogger(context: IExecuteFunctions, message: any) {
+    if (!DEBUG_MODE) return;
+    message = typeof message === 'string' ? message : JSON.stringify(message, null, 2);
+    context.logger.info('---SM: ' + message);
+}

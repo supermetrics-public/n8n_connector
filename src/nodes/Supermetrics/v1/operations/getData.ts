@@ -1,12 +1,16 @@
 import {
     IDataObject, INodeExecutionData, NodeApiError, JsonObject
 } from 'n8n-workflow';
-import {supermetricsPostRequest, supermetricsRequest, mapDefaultJsonRowsToItems} from '../functions';
+import {supermetricsPostRequest, supermetricsRequest, mapDefaultJsonRowsToItems, smLogger} from '../functions';
 import {OperationHandler} from './types';
 
 export const getData: OperationHandler = async (context, i) => {
 
+    smLogger(context, '---------getData start--------------');
+
     const visibleParams = Object.keys(context.getNode().parameters);
+
+    smLogger(context, 'getData visibleParams ' + JSON.stringify(visibleParams));
 
     const settings: Record<string, unknown> = {no_headers: true, no_json_keys: true};
     const params: Record<string, unknown> = {};
@@ -21,19 +25,19 @@ export const getData: OperationHandler = async (context, i) => {
             case 'ds_accounts':
             case 'fields':
                 const rawValue = context.getNodeParameter(name, i, '') as string | string[];
-                params[name] = typeof rawValue === 'string'? [rawValue] : rawValue;
+                params[name] = typeof rawValue === 'string' ? [rawValue] : rawValue;
                 break;
             default:
                 params[name] = context.getNodeParameter(name, i) as string;
         }
     }
 
-    if(params.start_date) {
+    if (params.start_date) {
         params.data_range_type = 'custom';
     }
 
-    context.logger.info('[Supermetrics] params' + JSON.stringify(params));
-    context.logger.info('[Supermetrics] settings' + JSON.stringify(settings));
+    smLogger(context, 'getData params ' + JSON.stringify(params));
+    smLogger(context, 'getData settings ' + JSON.stringify(settings));
 
 
     const payload: IDataObject = {
@@ -42,7 +46,7 @@ export const getData: OperationHandler = async (context, i) => {
         system: 'n8n'
     };
 
-    context.logger.info('[Supermetrics] payload' + JSON.stringify(payload));
+    smLogger(context, 'getData payload ' + JSON.stringify(payload));
 
     try {
         const res = await supermetricsPostRequest.call(context, '/query/data/json', payload);
