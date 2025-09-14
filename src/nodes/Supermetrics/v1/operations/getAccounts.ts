@@ -2,9 +2,9 @@ import type { OperationHandler } from './types';
 import type { INodeExecutionData } from 'n8n-workflow';
 import { fetchAccounts } from '../fetchers';
 
-export const getAccounts: OperationHandler = async (ctx, i) => {
-    const dsId = ctx.getNodeParameter('dsId', i) as string;
-    const data = await fetchAccounts.call(ctx, dsId);
+export const getAccounts: OperationHandler = async (context, i) => {
+    const ds_id = context.getNodeParameter('ds_id', i) as string;
+    const data = await fetchAccounts.call(context, ds_id);
 
     const out: INodeExecutionData[] = [];
     for (const login of data as any[]) {

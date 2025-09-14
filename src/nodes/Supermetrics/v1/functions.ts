@@ -11,6 +11,7 @@ import {
 
 const BASE = 'https://api.supermetrics.com/enterprise/v2';
 const CACHE_DEFAULT_TTL_SECONDS = 3600;
+const debugMode = true;
 
 /**
  * Low-level request helper that ensures auth and sensible defaults.
@@ -95,7 +96,8 @@ export async function supermetricsRequest(
             throw new NodeApiError(this.getNode(), errorInfo as JsonObject, {
                 message:
                     'Supermetrics request error: ' +
-                    (errorInfo.description || errorInfo.message || errorInfo.code || ''),
+                    (errorInfo.description || errorInfo.message || errorInfo.code || '') +
+                    (debugMode ? ' ' + (body ? JSON.stringify(body) : JSON.stringify(qs)):''),
             });
         }
 
@@ -105,7 +107,8 @@ export async function supermetricsRequest(
             throw new NodeApiError(this.getNode(), response as JsonObject, {
                 message:
                     'Supermetrics query error: ' +
-                    (errorInfo.description || errorInfo.message || errorInfo.code || ''),
+                    (errorInfo.description || errorInfo.message || errorInfo.code || '')
+                    (debugMode ? ' ' + (body ? JSON.stringify(body) : JSON.stringify(qs)):''),
             });
         }
 
@@ -160,7 +163,7 @@ export function mapDefaultJsonRowsToItems(apiResponse: any): IDataObject[] {
     for (const f of fields) {
         if (typeof f?.data_column === 'number') {
             // prefer requested id; fall back to internal field_id
-            indexToKey[f.data_column] = f?.field_name ??  f?.id ?? f?.field_id ?? `col_${f.data_column}`;
+            indexToKey[f.data_column] = f?.field_name ?? f?.id ?? f?.field_id ?? `col_${f.data_column}`;
         }
     }
 

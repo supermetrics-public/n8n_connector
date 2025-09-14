@@ -13,9 +13,9 @@ export const loadOptions = {
     },
 
     async getFields(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
-        const dsId = this.getNodeParameter('dsId', 0) as string;
-        if (!dsId) return [];
-        const fields = await fetchFields.call(this, dsId);
+        const ds_id = this.getNodeParameter('ds_id', 0) as string;
+        if (!ds_id) return [];
+        const fields = await fetchFields.call(this, ds_id);
         return fields.map((f: any) => ({
             name: `${f.field_name ?? f.field_id} (${f.field_type})`,
             value: f.field_id,
@@ -24,9 +24,9 @@ export const loadOptions = {
     },
 
     async getAccounts(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
-        const dsId = this.getNodeParameter('dsId', 0) as string;
-        if (!dsId) return [];
-        const data = await fetchAccounts.call(this, dsId);
+        const ds_id = this.getNodeParameter('ds_id', 0) as string;
+        if (!ds_id) return [];
+        const data = await fetchAccounts.call(this, ds_id);
         const out: INodePropertyOptions[] = [];
         for (const login of data as any[]) {
             for (const acc of login?.accounts ?? []) {

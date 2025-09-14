@@ -1,30 +1,51 @@
-import {IDataObject, INodeExecutionData, NodeApiError, JsonObject} from 'n8n-workflow';
+import {
+    IDataObject, INodeExecutionData, NodeApiError, JsonObject
+} from 'n8n-workflow';
 import {supermetricsPostRequest, supermetricsRequest, mapDefaultJsonRowsToItems} from '../functions';
 import {OperationHandler} from './types';
 
-export const getData: OperationHandler = async (ctx, i) => {
-    const dsId = ctx.getNodeParameter('dsId', i) as string;
-    const accountsParam = ctx.getNodeParameter('dsAccounts', i, '') as string | string[];
-    const accounts = Array.isArray(accountsParam) ? accountsParam.join(',') : accountsParam;
-    const fieldsParam = ctx.getNodeParameter('fields', i) as string | string[];
-    const fields = Array.isArray(fieldsParam) ? fieldsParam.join(',') : fieldsParam;
-    const filter = ctx.getNodeParameter('filter', i, '') as string;
-    const startDate = ctx.getNodeParameter('startDate', i, '') as string;
-    const endDate = ctx.getNodeParameter('endDate', i, '') as string;
-    const dateRangeParam = {date_range_type: 'custom', start_date: startDate, end_date: endDate};
+export const getData: OperationHandler = async (context, i) => {
+
+    const visibleParams = Object.keys(context.getNode().parameters);
+
+    const settings: Record<string, unknown> = {no_headers: true, no_json_keys: true};
+    const params: Record<string, unknown> = {};
+    for (const name of visibleParams) {
+        if (name.startsWith('settings_')) {
+            settings[name.replace('settings_', '')] = context.getNodeParameter(name, i) as string;
+            continue;
+        }
+        switch (name) {
+            case 'operation':
+                break;
+            case 'ds_accounts':
+            case 'fields':
+                const rawValue = context.getNodeParameter(name, i, '') as string | string[];
+                params[name] = typeof rawValue === 'string'? [rawValue] : rawValue;
+                break;
+            default:
+                params[name] = context.getNodeParameter(name, i) as string;
+        }
+    }
+
+    if(params.start_date) {
+        params.data_range_type = 'custom';
+    }
+
+    context.logger.info('[Supermetrics] params' + JSON.stringify(params));
+    context.logger.info('[Supermetrics] settings' + JSON.stringify(settings));
+
 
     const payload: IDataObject = {
-        ds_id: dsId,
-        system: 'n8n',
-        ...(accounts ? {ds_accounts: accounts.split(',').map(s => s.trim())} : {}),
-        ...(fields ? {fields: fields.split(',').map(s => s.trim())} : {}),
-        ...(filter ? {filter} : {}),
-        ...dateRangeParam,
-        settings: {no_headers: true, no_json_keys: true, round_metrics_to: 4},
+        ...params,
+        settings: settings,
+        system: 'n8n'
     };
 
+    context.logger.info('[Supermetrics] payload' + JSON.stringify(payload));
+
     try {
-        const res = await supermetricsPostRequest.call(ctx, '/query/data/json', payload);
+        const res = await supermetricsPostRequest.call(context, '/query/data/json', payload);
 
         const out: INodeExecutionData[] = [];
 
@@ -32,13 +53,13 @@ export const getData: OperationHandler = async (ctx, i) => {
 
         let nextUrl = res?.meta?.paginate?.next as string | null | undefined;
         while (nextUrl) {
-            const page = await supermetricsRequest.call(ctx, 'GET', nextUrl);
+            const page = await supermetricsRequest.call(context, 'GET', nextUrl);
             for (const r of mapDefaultJsonRowsToItems(page)) out.push({json: r});
             nextUrl = page?.meta?.paginate?.next ?? null;
         }
 
         return out;
     } catch (error) {
-        throw new NodeApiError(ctx.getNode(), (error as any) as JsonObject);
+        throw new NodeApiError(context.getNode(), (error as any) as JsonObject);
     }
 };

@@ -4,7 +4,7 @@ export const descriptions: INodeProperties[] = [
 
     {
         displayName: 'Account Names or IDs',
-        name: 'dsAccounts',
+        name: 'ds_accounts',
         type: 'multiOptions',
         default: [],
         placeholder: '12345,67890',
@@ -16,13 +16,13 @@ export const descriptions: INodeProperties[] = [
         },
         typeOptions: {
             loadOptionsMethod: 'getAccounts',
-            loadOptionsDependsOn: ['dsId'],
+            loadOptionsDependsOn: ['ds_id'],
         },
     },
 
     {
         displayName: 'Start Date',
-        name: 'startDate',
+        name: 'start_date',
         type: 'string',
         default: 'first day of January',
         description: 'Either a date in the yyyy-mm-dd format, or anything parseable by PHP\'s strtotime function like "first day of January" or "today"',
@@ -35,7 +35,7 @@ export const descriptions: INodeProperties[] = [
     },
     {
         displayName: 'End Date',
-        name: 'endDate',
+        name: 'end_date',
         type: 'string',
         default: 'yesterday',
         description: 'Either a date in the yyyy-mm-dd format, or anything parseable by PHP\'s strtotime function like "first day of January" or "today"',
@@ -61,10 +61,39 @@ export const descriptions: INodeProperties[] = [
         },
         typeOptions: {
             loadOptionsMethod: 'getFields',
-            loadOptionsDependsOn: ['dsId'],
+            loadOptionsDependsOn: ['ds_id'],
         },
         required: true,
     },
+
+
+
+    {
+        displayName: 'App Store Country',
+        name: 'settings_country',
+        type: 'options',
+        default: 'US',
+        displayOptions: {
+            show: {
+                operation: ['getData'],
+                ds_id: ['APPD'],
+            },
+        },
+        options: [
+            {
+                name: 'United States',
+                value: 'US',
+            },
+            {
+                name: 'Finland',
+                value: 'FI',
+            },
+        ],
+        required: true,
+    },
+
+
+
     {
         displayName: 'Filter',
         name: 'filter',

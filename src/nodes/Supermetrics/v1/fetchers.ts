@@ -2,7 +2,7 @@ import type { IExecuteFunctions, ILoadOptionsFunctions, IDataObject } from 'n8n-
 import { supermetricsGetRequest } from './functions';
 
 
-type Ctx = IExecuteFunctions | ILoadOptionsFunctions;
+type context = IExecuteFunctions | ILoadOptionsFunctions;
 
 // For now, only allow data sources that have an account list and don't have user-facing report types
 export const ALLOWED_SOURCE_IDS = new Set([
@@ -10,10 +10,12 @@ export const ALLOWED_SOURCE_IDS = new Set([
     'FAN','FB','GAWA','GMB','GW','HS','IGI','KLAV','LIA','LIP','MARK','MC','MFSC','MGO','OBA',
     'OPT','PIA','QA','SCM','SF','SFMC','SFP','SFPS','SHP','STAC','TA','TEST','TIK','TTD','VDSP',
     'WOO','YAD','YAM','YG','YT',
+
+    'APPD'
 ]);
 
 /** Fetch raw list from Supermetrics (no auth) */
-export async function fetchDataSources(this: Ctx) {
+export async function fetchDataSources(this: context) {
 
     const res = await this.helpers.httpRequest({
         method: 'GET',
@@ -24,12 +26,12 @@ export async function fetchDataSources(this: Ctx) {
     return list.filter((ds: any) => ALLOWED_SOURCE_IDS.has(ds.id));
 }
 
-export async function fetchFields(this: Ctx, dsId: string) {
-    const res = await supermetricsGetRequest.call(this, '/query/fields', { ds_id: dsId } as IDataObject);
+export async function fetchFields(this: context, ds_id: string) {
+    const res = await supermetricsGetRequest.call(this, '/query/fields', { ds_id: ds_id } as IDataObject);
     return res?.data ?? [];
 }
 
-export async function fetchAccounts(this: Ctx, dsId: string) {
-    const res = await supermetricsGetRequest.call(this, '/query/accounts', { ds_id: dsId } as IDataObject);
+export async function fetchAccounts(this: context, ds_id: string) {
+    const res = await supermetricsGetRequest.call(this, '/query/accounts', { ds_id: ds_id } as IDataObject);
     return res?.data ?? [];
 }
