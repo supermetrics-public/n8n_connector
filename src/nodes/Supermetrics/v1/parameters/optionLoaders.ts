@@ -1,5 +1,5 @@
 // nodes/Supermetrics/loadOptions.ts
-import type { ILoadOptionsFunctions, INodePropertyOptions } from 'n8n-workflow';
+import {ILoadOptionsFunctions, INodePropertyOptions} from 'n8n-workflow';
 import { fetchDataSources, fetchFields, fetchAccounts } from '../fetchers';
 
 export const loadOptions = {
@@ -33,11 +33,25 @@ export const loadOptions = {
                 out.push({
                     name: acc.account_name || String(acc.account_id),
                     value: String(acc.account_id),
-                    description: [login.display_name, acc.group_name].filter(Boolean).join(' • '),
+                    description: [String(acc.account_id), login.display_name, acc.group_name].filter(Boolean).join(' • '),
                 });
             }
         }
+
+        if (out.length === 0) {
+            return [
+                {
+                    name: '— No Accounts Found for This Data Source —',
+                    value: '',
+                    description: 'You can connect to the data source <a href="https://hub.supermetrics.com/token-management#dataSource'+ds_id+'" target="blank">here ☍</a>',
+                },
+            ];
+        }
+
         out.sort((a, b) => a.name.localeCompare(b.name));
+
+
+
         return out;
     },
 };

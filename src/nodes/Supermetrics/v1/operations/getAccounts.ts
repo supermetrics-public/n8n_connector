@@ -1,12 +1,16 @@
 import type { OperationHandler } from './types';
-import type { INodeExecutionData } from 'n8n-workflow';
+import  { type INodeExecutionData, NodeOperationError } from 'n8n-workflow';
 import { fetchAccounts } from '../fetchers';
+import {smLogger} from '../functions';
 
 export const getAccounts: OperationHandler = async (context, i) => {
     const ds_id = context.getNodeParameter('ds_id', i) as string;
     const data = await fetchAccounts.call(context, ds_id);
 
     const out: INodeExecutionData[] = [];
+
+    smLogger(context, 'getAccounts data ' + JSON.stringify(data));
+
     for (const login of data as any[]) {
         for (const acc of login?.accounts ?? []) {
             out.push({
@@ -21,5 +25,20 @@ export const getAccounts: OperationHandler = async (context, i) => {
             });
         }
     }
+
+    smLogger(context, 'getAccounts out ' + JSON.stringify(out));
+
+    // 🚨 if nothing was pushed, error out
+    if (out.length === 0) {
+        throw new NodeOperationError(
+            context.getNode(),
+            `No accounts found for the selected data source.`,
+            {
+                description: 'You can connect to the data source <a href="https://hub.supermetrics.com/token-management#dataSource'+ds_id+'" target="blank">here ☍</a>.',
+            },
+        );
+    }
+
+
     return out;
 };
