@@ -25,7 +25,7 @@ export const getData: OperationHandler = async (context, i) => {
             case 'ds_accounts':
             case 'fields':
                 const rawValue = context.getNodeParameter(name, i, '') as string | string[];
-                params[name] = typeof rawValue === 'string' ? [rawValue] : rawValue;
+                params[name] = typeof rawValue === 'string' ? rawValue.split(',') : rawValue;
                 break;
             default:
                 params[name] = context.getNodeParameter(name, i) as string;
