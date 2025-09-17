@@ -224,3 +224,12 @@ export function smLogger(context: IExecuteFunctions, message: any) {
     message = typeof message === 'string' ? message : JSON.stringify(message, null, 2);
     context.logger.info('---SM: ' + message);
 }
+
+// If display name and ID are identical, keep just one
+export function cleanDsUserDisplayName(displayName: string): string {
+    const match = displayName.match(/^(.+?)\s*\(id:\s*\1\)$/);
+    if (match) {
+        return match[1]; // just the part before parentheses
+    }
+    return displayName;
+}

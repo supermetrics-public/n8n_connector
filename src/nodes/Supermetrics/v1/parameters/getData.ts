@@ -13,7 +13,11 @@ const commonGetDataParams: object = {
                     operation: ['getData', 'getFields'],
                 },
             },
-            options: [{value: '', name: 'Choose a data source first'}],
+            options: [
+                {
+                    value: '',
+                    name: 'Choose a Data Source First'
+                }],
             typeOptions: {
                 loadOptionsMethod: 'getAccounts',
                 loadOptionsDependsOn: ['ds_id'],
@@ -27,7 +31,12 @@ const commonGetDataParams: object = {
             type: 'multiOptions',
             default: [],
             placeholder: 'date,impressions,clicks',
-            description: 'Comma-separated field IDs. Use List Fields operation to discover valid IDs for your data source. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+            description: 'List of data source fields to fetch. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+            options: [
+                {
+                    value: '',
+                    name: 'Choose a Data Source First'
+                }],
             displayOptions: {
                 show: {
                     operation: ['getData'],
@@ -81,9 +90,6 @@ const commonGetDataParams: object = {
                 show: {
                     operation: ['getData'],
                 },
-                hide: {
-                    ds_id: ['']
-                }
             },
         },
 

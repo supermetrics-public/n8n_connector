@@ -1,6 +1,7 @@
 // nodes/Supermetrics/loadOptions.ts
 import {ILoadOptionsFunctions, INodePropertyOptions} from 'n8n-workflow';
 import { fetchDataSources, fetchFields, fetchAccounts } from '../fetchers';
+import {cleanDsUserDisplayName} from '../functions';
 
 export const loadOptions = {
     async getDataSources(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
@@ -14,7 +15,12 @@ export const loadOptions = {
 
     async getFields(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
         const ds_id = this.getNodeParameter('ds_id', 0) as string;
-        if (!ds_id) return [];
+        if (!ds_id) {
+            return  [{
+                value: '',
+                name: 'Choose a Data Source First'
+            }];
+        }
         const fields = await fetchFields.call(this, ds_id);
         return fields.map((f: any) => ({
             name: `${f.field_name ?? f.field_id} (${f.field_type})`,
@@ -25,7 +31,12 @@ export const loadOptions = {
 
     async getAccounts(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
         const ds_id = this.getNodeParameter('ds_id', 0) as string;
-        if (!ds_id) return [];
+        if (!ds_id) {
+            return  [{
+                value: '',
+                name: 'Choose a Data Source First'
+            }];
+        }
         const data = await fetchAccounts.call(this, ds_id);
         const out: INodePropertyOptions[] = [];
         for (const login of data as any[]) {
@@ -33,7 +44,7 @@ export const loadOptions = {
                 out.push({
                     name: acc.account_name || String(acc.account_id),
                     value: String(acc.account_id),
-                    description: [String(acc.account_id), login.display_name, acc.group_name].filter(Boolean).join(' • '),
+                    description: [String(acc.account_id), acc.group_name, cleanDsUserDisplayName(login.display_name)].filter(Boolean).join(' • '),
                 });
             }
         }
@@ -49,8 +60,6 @@ export const loadOptions = {
         }
 
         out.sort((a, b) => a.name.localeCompare(b.name));
-
-
 
         return out;
     },

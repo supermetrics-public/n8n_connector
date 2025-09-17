@@ -18,20 +18,6 @@ export const versionDescription: INodeTypeDescription =
         outputs: ['main'] as NodeConnectionType[],
         credentials: [{name: 'supermetricsApi', required: true}],
         properties: [
-            {
-                displayName: 'Operation',
-                name: 'operation',
-                type: 'options',
-				noDataExpression: true,
-                options: [
-                    {name: 'Get Data', value: 'getData', action: 'Get data'},
-                    {name: 'List Accounts', value: 'getAccounts', action: 'Get accounts'},
-                    {name: 'List Data Sources', value: 'getDataSources', action: 'Get data sources'},
-                    {name: 'List Fields', value: 'getFields', action: 'Get fields'},
-                ],
-                default: 'getData',
-            },
-
             ...commonParameters,
             ...getDataParameters,
 
