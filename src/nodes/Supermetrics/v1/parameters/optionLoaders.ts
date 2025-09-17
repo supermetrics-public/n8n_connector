@@ -23,9 +23,9 @@ export const loadOptions = {
         }
         const fields = await fetchFields.call(this, ds_id);
         return fields.map((f: any) => ({
-            name: `${f.field_name ?? f.field_id} (${f.field_type})`,
+            name: `${f.field_name ?? f.field_id}`,
             value: f.field_id,
-            description: f.description ?? '',
+            description: [ (f.field_type === 'met' ? 'Metric' : 'Dimension'),f.group_name, f.description ].filter(Boolean).join(' • '),
         }));
     },
 

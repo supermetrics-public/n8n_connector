@@ -22,13 +22,17 @@ export const getData: OperationHandler = async (context, i) => {
         switch (name) {
             case 'operation':
                 break;
+            case 'dates':
+            case 'optional_parameters':
+                Object.assign(params, context.getNodeParameter(name, i, {}));
+                break;
             case 'ds_accounts':
             case 'fields':
                 const rawValue = context.getNodeParameter(name, i, '') as string | string[];
                 params[name] = typeof rawValue === 'string' ? rawValue.split(',') : rawValue;
                 break;
             default:
-                params[name] = context.getNodeParameter(name, i) as string;
+                params[name] = context.getNodeParameter(name, i, '') as string;
         }
     }
 
