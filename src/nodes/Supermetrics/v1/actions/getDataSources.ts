@@ -1,4 +1,4 @@
-// nodes/Supermetrics/operations/getDataSources.ts
+// nodes/Supermetrics/actions/getDataSources.ts
 import type { OperationHandler } from './types';
 import type { INodeExecutionData } from 'n8n-workflow';
 import { fetchDataSources } from '../fetchers';

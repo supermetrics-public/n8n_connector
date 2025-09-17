@@ -6,11 +6,11 @@ import {OperationHandler} from './types';
 
 export const getData: OperationHandler = async (context, i) => {
 
-    smLogger(context, '---------getData start--------------');
+    smLogger('---------getData start--------------', context);
 
     const visibleParams = Object.keys(context.getNode().parameters);
 
-    smLogger(context, 'getData visibleParams ' + JSON.stringify(visibleParams));
+    smLogger('getData visibleParams ' + JSON.stringify(visibleParams), context);
 
     const settings: Record<string, unknown> = {no_headers: true, no_json_keys: true};
     const params: Record<string, unknown> = {};
@@ -36,8 +36,8 @@ export const getData: OperationHandler = async (context, i) => {
         params.data_range_type = 'custom';
     }
 
-    smLogger(context, 'getData params ' + JSON.stringify(params));
-    smLogger(context, 'getData settings ' + JSON.stringify(settings));
+    smLogger('getData params ' + JSON.stringify(params), context);
+    smLogger('getData settings ' + JSON.stringify(settings), context);
 
 
     const payload: IDataObject = {
@@ -46,7 +46,7 @@ export const getData: OperationHandler = async (context, i) => {
         system: 'n8n'
     };
 
-    smLogger(context, 'getData payload ' + JSON.stringify(payload));
+    smLogger('getData payload ' + JSON.stringify(payload), context);
 
     try {
         const res = await supermetricsPostRequest.call(context, '/query/data/json', payload);

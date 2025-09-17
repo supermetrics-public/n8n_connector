@@ -1,8 +1,9 @@
-import { VersionedNodeType,INodeTypeBaseDescription, IVersionedNodeType } from 'n8n-workflow';
-import { SupermetricsV1 } from './v1/SupermetricsV1.node';
+import {VersionedNodeType, INodeTypeBaseDescription, IVersionedNodeType} from 'n8n-workflow';
+import {SupermetricsV1} from './v1/SupermetricsV1.node';
 
 export class Supermetrics extends VersionedNodeType {
     constructor() {
+
         const baseDescription: INodeTypeBaseDescription = {
             displayName: 'Supermetrics',
             name: 'supermetrics',

@@ -6,11 +6,11 @@ import {
     INodeTypeBaseDescription,
     NodeOperationError
 } from 'n8n-workflow';
-import {getData} from './operations/getData';
-import {getFields} from './operations/getFields';
-import {getAccounts} from './operations/getAccounts';
-import {getSegments} from './operations/getSegments';
-import {getDataSources} from './operations/getDataSources';
+import {getData} from './actions/getData';
+import {getFields} from './actions/getFields';
+import {getAccounts} from './actions/getAccounts';
+import {getSegments} from './actions/getSegments';
+import {getDataSources} from './actions/getDataSources';
 import {versionDescription} from './versionDescription';
 import { loadOptions } from './parameters/optionLoaders';
 

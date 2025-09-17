@@ -9,7 +9,7 @@ export const getAccounts: OperationHandler = async (context, i) => {
 
     const out: INodeExecutionData[] = [];
 
-    smLogger(context, 'getAccounts data ' + JSON.stringify(data));
+    smLogger('getAccounts data ' + JSON.stringify(data), context);
 
     for (const login of data as any[]) {
         for (const acc of login?.accounts ?? []) {
@@ -26,7 +26,7 @@ export const getAccounts: OperationHandler = async (context, i) => {
         }
     }
 
-    smLogger(context, 'getAccounts out ' + JSON.stringify(out));
+    smLogger('getAccounts out ' + JSON.stringify(out), context);
 
     // 🚨 if nothing was pushed, error out
     if (out.length === 0) {

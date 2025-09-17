@@ -5,8 +5,6 @@ import {ALLOWED_DATA_SOURCE_IDS} from './constants';
 
 type context = IExecuteFunctions | ILoadOptionsFunctions;
 
-// For now, only allow data sources that have an account list and don't have user-facing report types
-
 /** Fetch raw list from Supermetrics (no auth) */
 export async function fetchDataSources(this: context) {
 
