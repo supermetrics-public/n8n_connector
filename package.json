@@ -34,8 +34,7 @@
   },
   "n8n": {
     "nodes": [
-      "dist/nodes/Supermetrics/Supermetrics.node.js",
-      "dist/nodes/SupermetricsTool/SupermetricsTool.node.js"
+      "dist/nodes/Supermetrics/Supermetrics.node.js"
     ],
     "credentials": [
       "dist/credentials/SupermetricsApi.credentials.js"
