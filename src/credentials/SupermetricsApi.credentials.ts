@@ -17,7 +17,8 @@ export class SupermetricsApi implements ICredentialType {
             type: 'string',
             typeOptions: { password: true },
             default: '',
-            description: 'Your Supermetrics API key',
+            placeholder: 'api_....',
+            description: 'Your Supermetrics API key. If you don\'t have a key, you can create one <a href="https://hub.supermetrics.com/api-key-management" target="blank">here</a>. Type should be "Query Key".',
         },
     ];
 
@@ -31,12 +32,10 @@ export class SupermetricsApi implements ICredentialType {
         },
     };
 
-    // Simple bearer check against httpbin (standard pattern in many n8n credentials)
-    // This verifies the header wiring (200 when Authorization header is present).
     test: ICredentialTestRequest = {
         request: {
-            baseURL: 'https://httpbin.org',
-            url: '/bearer',
+            baseURL: 'https://api.supermetrics.com',
+            url: '/query/fields?ds_id=FA',
         },
     };
 }

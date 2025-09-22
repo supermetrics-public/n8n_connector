@@ -106,7 +106,7 @@ export async function supermetricsRequest(
             throw new NodeApiError(this.getNode(), response as JsonObject, {
                 message:
                     'Supermetrics query error: ' +
-                    (errorInfo.description || errorInfo.message || errorInfo.code || '')
+                    (errorInfo.description || errorInfo.message || errorInfo.code || '') +
                     (DEBUG_MODE ? ' ' + (body ? JSON.stringify(body) : JSON.stringify(qs)) : ''),
             });
         }
