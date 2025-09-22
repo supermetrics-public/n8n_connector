@@ -12,7 +12,7 @@ export class SupermetricsApi implements ICredentialType {
     documentationUrl = 'https://supermetrics.com/docs/product-api-authentication';
     properties: INodeProperties[] = [
         {
-            displayName: 'API Key',
+            displayName: 'Supermetrics API Key',
             name: 'apiKey',
             type: 'string',
             typeOptions: { password: true },
