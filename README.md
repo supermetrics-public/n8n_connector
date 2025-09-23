@@ -9,19 +9,47 @@ Supermetrics node for n8n — use data from 50+ data sources like Facebook Ads o
 
 ## Requirements
 
-- A valid Supermetrics API **license** and **API key**. 
-  Docs: Authentication, Making requests.  
+- A valid Supermetrics API **license** and **API key**.
 - https://supermetrics.com/products/api
   https://supermetrics.com/docs/product-api-authentication
 
-## Install (local development)
+## Installation - n8n Cloud
 
-1. Start from the official starter (recommended):  
-   Tutorial: https://docs.n8n.io/integrations/creating-nodes/build/programmatic-style-node/
+We are waiting for n8n to verify our node. Before then, it cannot be installed to the cloud version of n8n.
 
-2. Put this repo’s `credentials/` and `nodes/` contents into your starter project.
+## Installation - Self-hosted n8n (GUI — easiest)
 
-3. Build:
-   ```bash
-   npm i
-   npm run build
+If you run n8n yourself (local, desktop, server, or Docker) you can install the Supermetrics node in the UI:
+
+Open n8n → Settings → Community Nodes → Install.
+
+Enter the npm package name: "n8n-nodes-supermetrics"
+
+(Optionally pin a version, e.g. @1.2.3.)
+
+Confirm the risks prompt and click Install.
+
+Restart n8n if prompted.
+n8n Docs
+
+Note that installing from npm via the GUI is only available to self-hosted instance owners/admins.
+
+## Installation - Self-hosted n8n (Docker/CLI — manual)
+
+Use this when the GUI isn’t available (e.g. queue mode) or for private/automated setups:
+
+Enter the container shell (replace n8n with your container name):
+
+    docker exec -it n8n sh
+
+Create the nodes folder (if needed) and go there:
+
+    mkdir -p ~/.n8n/nodes
+    cd ~/.n8n/nodes
+
+
+Install the package from npm:
+
+    npm i n8n-nodes-supermetrics
+
+Restart n8n so it loads the new node.
