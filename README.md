@@ -42,17 +42,20 @@ Enter the container shell (replace n8n with your container name):
 
   ```bash
   docker exec -it n8n sh
+  ```
 
 Create the nodes folder (if needed) and go there:
 
    ```bash
    mkdir -p ~/.n8n/nodes
    cd ~/.n8n/nodes
+   ```
 
 
 Install the package from npm:
 
    ```bash
    npm i n8n-nodes-supermetrics
+   ```
 
 Restart n8n so it loads the new node.

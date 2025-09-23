@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-supermetrics",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Supermetrics node for n8n",
   "author": "",
   "license": "MIT",
