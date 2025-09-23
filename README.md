@@ -40,16 +40,19 @@ Use this when the GUI isn’t available (e.g. queue mode) or for private/automat
 
 Enter the container shell (replace n8n with your container name):
 
-    docker exec -it n8n sh
+  ```bash
+  docker exec -it n8n sh
 
 Create the nodes folder (if needed) and go there:
 
-    mkdir -p ~/.n8n/nodes
-    cd ~/.n8n/nodes
+   ```bash
+   mkdir -p ~/.n8n/nodes
+   cd ~/.n8n/nodes
 
 
 Install the package from npm:
 
-    npm i n8n-nodes-supermetrics
+   ```bash
+   npm i n8n-nodes-supermetrics
 
 Restart n8n so it loads the new node.
