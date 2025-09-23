@@ -1,6 +1,6 @@
-# n8n-nodes-supermetrics
+# Supermetrics node for n8n
 
-Supermetrics node for n8n — use data from 50+ data sources like Facebook Ads or Google Analytics right inside your workflows (source list to be expanded to 200+ soon).
+With Supermetrics, you can use data from 50+ sources like Facebook Ads or Google Analytics right inside your workflows (source list to be expanded to 200+ soon).
 
 - List Data Sources - Lists the sources available via Supermetrics. For example, LinkedIn Ads and YouTube are data sources.
 - List Fields - Lists the fields available for a data source. For example, some of the fields available for LinkedIn Ads are Campaign Name and Cost.
