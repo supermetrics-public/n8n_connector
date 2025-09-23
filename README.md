@@ -21,16 +21,13 @@ We are waiting for n8n to verify our node. Before then, it cannot be installed t
 
 If you run n8n yourself (local, desktop, server, or Docker) you can install the Supermetrics node in the UI:
 
-Open n8n → Settings → Community Nodes → Install.
+1. Open n8n → Settings → Community Nodes → Install.
 
-Enter the npm package name: "n8n-nodes-supermetrics"
+2. Enter the npm package name: "n8n-nodes-supermetrics" (Optionally pin a version, e.g. @1.2.3.)
 
-(Optionally pin a version, e.g. @1.2.3.)
+3. Confirm the risks prompt and click Install.
 
-Confirm the risks prompt and click Install.
-
-Restart n8n if prompted.
-n8n Docs
+4. Restart n8n if prompted.
 
 Note that installing from npm via the GUI is only available to self-hosted instance owners/admins.
 
