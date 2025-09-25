@@ -6,4 +6,4 @@
  */
 export const ALLOWED_DATA_SOURCE_IDS = new Set(["AC", "ADA", "ADF", "ADM", "ADR", "ASA", "ASC", "AW", "BW", "CRI", "DBM", "DFA", "DFP", "DFS", "FA", "FAN", "FB", "GAWA", "GMB", "GW", "HS", "IGI", "KLAV", "LIA", "LIP", "MARK", "MC", "MFSC", "MGO", "OBA", "OPT", "PIA", "QA", "SCM", "SF", "SFMC", "SFP", "SFPS", "SHP", "STAC", "TA", "TEST", "TIK", "TTD", "VDSP", "WOO", "YAD", "YAM", "YG", "YT"]);
 export const CACHE_DEFAULT_TTL_SECONDS = 3600;
-export const DEBUG_MODE = true;
+export const DEBUG_MODE = false;
