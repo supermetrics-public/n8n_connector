@@ -46,8 +46,7 @@ export const getData: OperationHandler = async (context, i) => {
 
     const payload: IDataObject = {
         ...params,
-        settings: settings,
-        system: 'n8n'
+        settings: settings
     };
 
     smLogger('getData payload ' + JSON.stringify(payload), context);

@@ -45,6 +45,13 @@ export async function supermetricsRequest(
         if (cached !== undefined) return cached;
     }
 
+    if (qs) {
+        qs.system = 'n8n';
+    }
+    if (body) {
+        body.system = 'n8n';
+    }
+
     const requestOptions: IHttpRequestOptions = {
         method,
         url,
@@ -222,9 +229,9 @@ function cacheSet(key: string, value: any, ttlMs: number) {
 export function smLogger(message: any, context: IExecuteFunctions | null = null) {
     if (!DEBUG_MODE) return;
     message = typeof message === 'string' ? message : JSON.stringify(message, null, 2);
-    if(context) {
+    if (context) {
         context.logger.info('---SM: ' + message);
-    }else{
+    } else {
         console.log('---SM: ' + message);
     }
 }

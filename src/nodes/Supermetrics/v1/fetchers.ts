@@ -10,7 +10,7 @@ export async function fetchDataSources(this: context) {
 
     const res = await this.helpers.httpRequest({
         method: 'GET',
-        url: 'https://api.supermetrics.com/datasource/search',
+        url: 'https://api.supermetrics.com/datasource/search?system=n8n',
         json: true,
     });
     const list = res?.data?.list ?? [];
