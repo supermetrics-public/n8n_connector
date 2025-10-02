@@ -10,7 +10,7 @@ import {
 } from 'n8n-workflow';
 
 const BASE = 'https://api.supermetrics.com/enterprise/v2';
-import {CACHE_DEFAULT_TTL_SECONDS, DEBUG_MODE} from './constants';
+import {CACHE_DEFAULT_TTL_SECONDS, DEBUG_MODE, USER_AGENT} from './constants';
 
 /**
  * Low-level request helper that ensures auth and sensible defaults.
@@ -59,6 +59,10 @@ export async function supermetricsRequest(
         qs,
         body,
         ...options,
+        headers: {
+            'User-Agent': USER_AGENT,
+            ...(options.headers ?? {}), // merge any headers provided by caller
+        },
     };
 
     const maxRetries = Number.isInteger(optAny?.retries) ? Math.max(0, optAny.retries) : 2;

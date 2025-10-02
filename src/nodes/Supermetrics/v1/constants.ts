@@ -1,3 +1,7 @@
+import { version } from '../../../../package.json';
+
+export const USER_AGENT = 'sm-n8n-node/'+version;
+
 /* Currently allowing only data sources that
     1. Have an account list
     2. Have date range selection

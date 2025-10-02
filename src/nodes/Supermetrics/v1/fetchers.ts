@@ -1,6 +1,6 @@
 import type { IExecuteFunctions, ILoadOptionsFunctions, IDataObject } from 'n8n-workflow';
 import { supermetricsGetRequest } from './functions';
-import {ALLOWED_DATA_SOURCE_IDS} from './constants';
+import {ALLOWED_DATA_SOURCE_IDS, USER_AGENT} from './constants';
 
 
 type context = IExecuteFunctions | ILoadOptionsFunctions;
@@ -11,6 +11,9 @@ export async function fetchDataSources(this: context) {
     const res = await this.helpers.httpRequest({
         method: 'GET',
         url: 'https://api.supermetrics.com/datasource/search?system=n8n',
+        headers: {
+            'User-Agent': USER_AGENT,
+        },
         json: true,
     });
     const list = res?.data?.list ?? [];
