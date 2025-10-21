@@ -2,7 +2,15 @@
   "name": "n8n-nodes-supermetrics",
   "version": "0.1.10",
   "description": "Supermetrics node for n8n",
-  "author": "",
+  "homepage": "https://github.com/supermetrics/n8n_connector",
+  "author": {
+    "name": "Supermetrics",
+    "email": "dev-info@supermetrics.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/supermetrics/n8n_connector.git"
+  },
   "license": "MIT",
   "type": "commonjs",
   "keywords": [
@@ -19,7 +27,7 @@
     "prepare": "husky"
   },
   "files": [
-    "dist/**/*"
+    "dist"
   ],
   "husky": {
     "hooks": {
@@ -27,8 +35,7 @@
     }
   },
   "peerDependencies": {
-    "n8n-core": "^1.0.0",
-    "n8n-workflow": "^1.0.0"
+    "n8n-workflow": "*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -40,11 +47,12 @@
     "typescript": "^5.9.2"
   },
   "n8n": {
+    "n8nNodesApiVersion": 1,
     "nodes": [
-      "dist/nodes/Supermetrics/Supermetrics.node.js"
+      "dist/nodes/Supermetrics/Supermetrics.node.ts"
     ],
     "credentials": [
-      "dist/credentials/SupermetricsApi.credentials.js"
+      "dist/credentials/SupermetricsApi.credentials.ts"
     ]
   }
 }

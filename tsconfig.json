@@ -7,7 +7,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-
     "outDir": "dist",                          // compiled JS goes here
     "rootDir": "src",                          // source folder
     "declaration": false,                      // no .d.ts needed for n8n nodes
