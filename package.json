@@ -2,14 +2,14 @@
   "name": "n8n-nodes-supermetrics",
   "version": "0.1.10",
   "description": "Supermetrics node for n8n",
-  "homepage": "https://github.com/supermetrics/n8n_connector",
+  "homepage": "https://github.com/supermetrics-public/n8n_connector",
   "author": {
     "name": "Supermetrics",
     "email": "dev-info@supermetrics.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/supermetrics/n8n_connector.git"
+    "url": "https://github.com/supermetrics-public/n8n_connector.git"
   },
   "license": "MIT",
   "type": "commonjs",
