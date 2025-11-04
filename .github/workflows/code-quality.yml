@@ -10,7 +10,7 @@ on:
 
 jobs:
   eslint:
-    runs-on: arc-ghe-default
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v5
