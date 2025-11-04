@@ -14,4 +14,6 @@ module.exports = {
     rules: {
         // optional custom tweaks, or overrides
     },
-};
+    ignores: [
+        'dist/',
+    ],};
