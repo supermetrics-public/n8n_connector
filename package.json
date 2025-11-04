@@ -35,7 +35,11 @@
     }
   },
   "peerDependencies": {
-    "n8n-workflow": "*"
+    "n8n-core": ">=1.100.0",
+    "n8n-workflow": ">=1.100.0"
+  },
+  "overrides": {
+    "form-data": ">=4.0.4"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
