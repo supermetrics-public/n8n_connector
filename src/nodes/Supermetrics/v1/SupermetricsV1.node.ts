@@ -47,8 +47,19 @@ export class SupermetricsV1 implements INodeType {
 
         const all: INodeExecutionData[] = [];
         for (let i = 0; i < items.length; i++) {
-            const chunk = await handler(i);
-            all.push(...chunk);
+            try {
+                const chunk = await handler(i);
+                all.push(...chunk);
+            } catch (error) {
+                if (this.continueOnFail()) {
+                    all.push({
+                        json: { error: (error as Error).message },
+                        pairedItem: { item: i },
+                    });
+                    continue;
+                }
+                throw error;
+            }
         }
         return [all];
     }
