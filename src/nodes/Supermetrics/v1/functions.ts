@@ -236,7 +236,7 @@ export function smLogger(message: any, context: IExecuteFunctions | null = null)
     if (context) {
         context.logger.info('---SM: ' + message);
     } else {
-        console.log('---SM: ' + message);
+     //   console.log('---SM: ' + message);
     }
 }
 

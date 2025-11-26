@@ -53,10 +53,10 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "nodes": [
-      "dist/nodes/Supermetrics/Supermetrics.node.ts"
+      "dist/nodes/Supermetrics/Supermetrics.node.js"
     ],
     "credentials": [
-      "dist/credentials/SupermetricsApi.credentials.ts"
+      "dist/credentials/SupermetricsApi.credentials.js"
     ]
   }
 }
