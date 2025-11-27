@@ -231,9 +231,6 @@ function cacheSet(key: string, value: any, ttlMs: number) {
 }
 
 export function smLogger(message: any, context: IExecuteFunctions | null = null) {
-    if (!DEBUG_MODE || !context) return;
-    message = typeof message === 'string' ? message : JSON.stringify(message, null, 2);
-    context.logger.info('---SM: ' + message);
 }
 
 // If display name and ID are identical, keep just one
