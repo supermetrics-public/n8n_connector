@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-supermetrics",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Supermetrics node for n8n",
   "homepage": "https://github.com/supermetrics-public/n8n_connector",
   "author": {

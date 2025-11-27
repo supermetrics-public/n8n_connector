@@ -1,15 +1,12 @@
 import type { OperationHandler } from './types';
 import  { type INodeExecutionData, NodeOperationError } from 'n8n-workflow';
 import { fetchAccounts } from '../fetchers';
-import {smLogger} from '../functions';
 
 export const getAccounts: OperationHandler = async (context, i) => {
     const ds_id = context.getNodeParameter('ds_id', i) as string;
     const data = await fetchAccounts.call(context, ds_id);
 
     const out: INodeExecutionData[] = [];
-
-    smLogger('getAccounts data ' + JSON.stringify(data), context);
 
     for (const login of data as any[]) {
         for (const acc of login?.accounts ?? []) {
@@ -26,7 +23,6 @@ export const getAccounts: OperationHandler = async (context, i) => {
         }
     }
 
-    smLogger('getAccounts out ' + JSON.stringify(out), context);
 
     // 🚨 if nothing was pushed, error out
     if (out.length === 0) {

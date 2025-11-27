@@ -1,5 +1,4 @@
 import type {INodeProperties} from 'n8n-workflow';
-import {smLogger} from "../functions";
 
 const commonGetDataParams: object = {
         ds_accounts: {
@@ -120,8 +119,6 @@ export const descriptions: INodeProperties[] = determineGetDataParameters();
 
 export function determineGetDataParameters(): INodeProperties[] {
     //to do: build logic for parameter visibility by data source
-    const params = Object.values(commonGetDataParams) as INodeProperties[];
-    smLogger('getData params: ' + JSON.stringify(params));
-    return params;
+    return Object.values(commonGetDataParams) as INodeProperties[];
 }
 
