@@ -8,12 +8,12 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "outDir": "dist",                          // compiled JS goes here
-    "rootDir": "src",                          // source folder
+    "rootDir": ".",                           // source folder
     "declaration": false,                      // no .d.ts needed for n8n nodes
     "sourceMap": false,                        // keep builds clean
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts"],                  // compile all TS in src/
+  "include": ["**/*.ts"],                     // compile all TS files
   "exclude": ["node_modules", "dist"]          // skip deps & build folder
 }
