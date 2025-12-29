@@ -230,9 +230,6 @@ function cacheSet(key: string, value: any, ttlMs: number) {
     CACHE[key] = {value, expires: Date.now() + ttlMs};
 }
 
-export function smLogger(message: any, context: IExecuteFunctions | null = null) {
-}
-
 // If display name and ID are identical, keep just one
 export function cleanDsUserDisplayName(displayName: string): string {
     const match = displayName.match(/^(.+?)\s*\(id:\s*\1\)$/);
