@@ -14,6 +14,7 @@ import {getDataSources} from './actions/getDataSources';
 import {versionDescription} from './versionDescription';
 import { loadOptions } from './parameters/optionLoaders';
 
+// eslint-disable-next-line @n8n/community-nodes/icon-validation
 export class SupermetricsV1 implements INodeType {
     description: INodeTypeDescription;
 

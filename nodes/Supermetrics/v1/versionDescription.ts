@@ -1,5 +1,5 @@
 /* eslint-disable n8n-nodes-base/node-filename-against-convention */
-import { NodeConnectionType, INodeTypeDescription } from 'n8n-workflow';
+import {INodeTypeDescription, NodeConnectionTypes} from 'n8n-workflow';
 import {descriptions as commonParameters} from './parameters/common';
 import {descriptions as getDataParameters} from './parameters/getData';
 
@@ -14,8 +14,8 @@ export const versionDescription: INodeTypeDescription =
         subtitle: '={{$parameter["operation"]}}',
         defaults: {name: 'Supermetrics'},
         usableAsTool: true,
-        inputs: ['main'] as NodeConnectionType[],
-        outputs: ['main'] as NodeConnectionType[],
+        inputs: [NodeConnectionTypes.Main],
+        outputs: [NodeConnectionTypes.Main],
         credentials: [{name: 'supermetricsApi', required: true}],
         properties: [
             ...commonParameters,

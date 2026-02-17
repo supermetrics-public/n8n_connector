@@ -19,11 +19,11 @@
     "n8n-nodes",
     "supermetrics"
   ],
-  "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "lint": "eslint . --ext .ts,package.json",
-    "lintfix": "eslint . --ext .ts,package.json --fix",
+    "build": "n8n-node build",
+    "dev": "n8n-node dev",
+    "lint": "n8n-node lint",
+    "lint:fix": "n8n-node lint --fix",
     "prepare": "husky"
   },
   "files": [
@@ -35,16 +35,13 @@
     }
   },
   "peerDependencies": {
-    "n8n-core": ">=1.100.0",
-    "n8n-workflow": ">=1.100.0"
+    "n8n-workflow": "*"
   },
   "devDependencies": {
+    "@n8n/node-cli": "*",
     "@types/node": "^24.10.0",
-    "@typescript-eslint/parser": "^8.48.0",
     "eslint": "^9.39.1",
-    "eslint-plugin-n8n-nodes-base": "^1.16.4",
     "husky": "^9.1.7",
-    "n8n-workflow": ">=1.100.0",
     "typescript": "^5.9.2"
   },
   "n8n": {

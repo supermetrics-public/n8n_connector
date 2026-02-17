@@ -8,8 +8,8 @@ export const getSegments: OperationHandler = async (context, i) => {
     const res = await supermetricsGetRequest.call(context, '/query/segments', payload);
 
     const out: INodeExecutionData[] = [];
-    for (const login of res?.data ?? []) {
-        for (const s of login?.segments ?? []) {
+    for (const login of (res?.data ?? []) as IDataObject[]) {
+        for (const s of (login?.segments ?? []) as IDataObject[]) {
             out.push({json: {...s, ds_user: login.ds_user}});
         }
     }

@@ -3,10 +3,10 @@ import { supermetricsGetRequest } from './functions';
 import {ALLOWED_DATA_SOURCE_IDS, USER_AGENT} from './constants';
 
 
-type context = IExecuteFunctions | ILoadOptionsFunctions;
+type ApiContext = IExecuteFunctions | ILoadOptionsFunctions;
 
 /** Fetch raw list from Supermetrics (no auth) */
-export async function fetchDataSources(this: context) {
+export async function fetchDataSources(this: ApiContext): Promise<IDataObject[]> {
 
     const res = await this.helpers.httpRequest({
         method: 'GET',
@@ -16,16 +16,16 @@ export async function fetchDataSources(this: context) {
         },
         json: true,
     });
-    const list = res?.data?.list ?? [];
-    return list.filter((ds: any) => ALLOWED_DATA_SOURCE_IDS.has(ds.id));
+    const list = (res?.data?.list ?? []) as IDataObject[];
+    return list.filter((ds: IDataObject) => ALLOWED_DATA_SOURCE_IDS.has(ds.id as string));
 }
 
-export async function fetchFields(this: context, ds_id: string) {
-    const res = await supermetricsGetRequest.call(this, '/query/fields', { ds_id: ds_id } as IDataObject);
-    return res?.data ?? [];
+export async function fetchFields(this: ApiContext, ds_id: string): Promise<IDataObject[]> {
+    const res = await supermetricsGetRequest.call(this, '/query/fields', { ds_id } as IDataObject);
+    return (res?.data ?? []) as IDataObject[];
 }
 
-export async function fetchAccounts(this: context, ds_id: string) {
-    const res = await supermetricsGetRequest.call(this, '/query/accounts', { ds_id: ds_id } as IDataObject);
-    return res?.data ?? [];
+export async function fetchAccounts(this: ApiContext, ds_id: string): Promise<IDataObject[]> {
+    const res = await supermetricsGetRequest.call(this, '/query/accounts', { ds_id } as IDataObject);
+    return (res?.data ?? []) as IDataObject[];
 }
