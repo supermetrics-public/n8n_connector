@@ -10,7 +10,7 @@ const commonGetDataParams: object = {
             description: 'List of data source accounts to fetch data from. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
             displayOptions: {
                 show: {
-                    operation: ['getData', 'getFields'],
+                    resource: ['data', 'field'],
                 },
             },
             options: [
@@ -39,7 +39,7 @@ const commonGetDataParams: object = {
                 }],
             displayOptions: {
                 show: {
-                    operation: ['getData'],
+                    resource: ['data'],
                 },
             },
             typeOptions: {
@@ -58,7 +58,7 @@ const commonGetDataParams: object = {
                 type: 'collection',
                 displayOptions: {
                     show: {
-                        operation: ['getData'],
+                        resource: ['data'],
                     },
                 },
                 default: {
@@ -96,7 +96,7 @@ const commonGetDataParams: object = {
                 type: 'collection',
                 displayOptions: {
                     show: {
-                        operation: ['getData'],
+                        resource: ['data'],
                     },
                 },
                 default: {
