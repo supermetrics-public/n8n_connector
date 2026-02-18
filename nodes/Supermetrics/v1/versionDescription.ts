@@ -11,7 +11,7 @@ export const versionDescription: INodeTypeDescription =
         group: ['transform'],
         version: [1],
         description: 'Query marketing data using Supermetrics',
-        subtitle: '={{$parameter["operation"]}}',
+        subtitle: '={{$parameter["resource"] + ": " + $parameter["operation"]}}',
         defaults: {name: 'Supermetrics'},
         usableAsTool: true,
         inputs: [NodeConnectionTypes.Main],

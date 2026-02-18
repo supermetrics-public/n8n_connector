@@ -31,19 +31,30 @@ export class SupermetricsV1 implements INodeType {
 
     async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
         const items = this.getInputData();
+        const resource = this.getNodeParameter('resource', 0) as string;
         const operation = this.getNodeParameter('operation', 0) as string;
 
-        const handlers: Record<string, (i: number) => Promise<INodeExecutionData[]>> = {
-            getData: (i) => getData(this, i),
-            getFields: (i) => getFields(this, i),
-            getAccounts: (i) => getAccounts(this, i),
-            getSegments: (i) => getSegments(this, i),
-            getDataSources: (i) => getDataSources(this, i),
+        const handlers: Record<string, Record<string, (i: number) => Promise<INodeExecutionData[]>>> = {
+            data: {
+                query: (i) => getData(this, i),
+            },
+            dataSource: {
+                getMany: (i) => getDataSources(this, i),
+            },
+            account: {
+                getMany: (i) => getAccounts(this, i),
+            },
+            field: {
+                getMany: (i) => getFields(this, i),
+            },
+            segment: {
+                getMany: (i) => getSegments(this, i),
+            },
         };
 
-        const handler = handlers[operation];
+        const handler = handlers[resource]?.[operation];
         if (!handler) {
-            throw new NodeOperationError(this.getNode(),`Unknown operation: ${operation}`);
+            throw new NodeOperationError(this.getNode(),`Unknown resource/operation: ${resource}/${operation}`);
         }
 
         const all: INodeExecutionData[] = [];
