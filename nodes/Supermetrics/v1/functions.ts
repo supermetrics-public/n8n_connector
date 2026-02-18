@@ -29,15 +29,15 @@ export async function supermetricsRequest(
     body: IDataObject = {},
     qs: IDataObject = {},
     options: Partial<IHttpRequestOptions> = {},
-): Promise<any> {
+): Promise<IDataObject> {
     const isFullUrl = /^https?:\/\//i.test(endpointOrFullUrl);
     const url = isFullUrl ? endpointOrFullUrl : `${BASE}${endpointOrFullUrl}`;
 
     // Cache controls (opt-in via options)
-    const optAny = options as any;
-    const skipCache: boolean = Boolean(optAny?.skipCache);
-    const cacheTTL: number = 1000 * (typeof optAny?.cacheTTL === 'number' ? optAny.cacheTTL : CACHE_DEFAULT_TTL_SECONDS);
-    const cacheKeyOverride: string | undefined = optAny?.cacheKey as string | undefined;
+    const optExt = options as Record<string, unknown>;
+    const skipCache: boolean = Boolean(optExt?.skipCache);
+    const cacheTTL: number = 1000 * (typeof optExt?.cacheTTL === 'number' ? optExt.cacheTTL : CACHE_DEFAULT_TTL_SECONDS);
+    const cacheKeyOverride: string | undefined = optExt?.cacheKey as string | undefined;
 
     const key = makeCacheKey(method, url, body, qs, cacheKeyOverride);
     if (!skipCache) {
@@ -65,21 +65,25 @@ export async function supermetricsRequest(
         },
     };
 
-    const maxRetries = Number.isInteger(optAny?.retries) ? Math.max(0, optAny.retries) : 2;
-    const baseDelayMs = Number.isInteger(optAny?.retryDelayMs) ? Math.max(50, optAny.retryDelayMs) : 250;
+    const maxRetries = Number.isInteger(optExt?.retries) ? Math.max(0, optExt.retries as number) : 2;
+    const baseDelayMs = Number.isInteger(optExt?.retryDelayMs) ? Math.max(50, optExt.retryDelayMs as number) : 250;
 
     let attempt = 0;
     while (true) {
-        let response: any;
+        let response: IDataObject;
         try {
-            // @ts-ignore - httpRequestWithAuthentication available at runtime
             response = await this.helpers.httpRequestWithAuthentication.call(
                 this,
                 'supermetricsApi',
                 requestOptions,
             );
         } catch (error: unknown) {
-            const err = error as any;
+            const err = error as IDataObject & {
+                httpCode?: number;
+                statusCode?: number;
+                response?: { headers?: Record<string, string>; body?: IDataObject };
+                context?: { data?: IDataObject };
+            };
 
             // Extract best-effort status code & retry-after
             const status = err?.httpCode ?? err?.statusCode;
@@ -87,7 +91,7 @@ export async function supermetricsRequest(
             const retryAfterMs = retryAfterHeader ? Number(retryAfterHeader) * 1000 : undefined;
 
             // Retry on transient errors with jitter + Retry-After
-            const transient = status === 429 || (status >= 500 && status < 600);
+            const transient = status === 429 || (Number(status) >= 500 && Number(status) < 600);
             if (transient && attempt < maxRetries) {
                 const jitter = Math.floor(Math.random() * 100);
                 const delay = retryAfterMs ?? (baseDelayMs * Math.pow(2, attempt) + jitter);
@@ -97,11 +101,12 @@ export async function supermetricsRequest(
             }
 
             // Fall through to error normalization below
-            const errorInfo =
-                err?.context?.data?.error ??
+            const errorInfo = (
+                (err?.context?.data as IDataObject)?.error ??
                 err?.response?.body?.error ??
                 err?.error ??
-                err;
+                err
+            ) as IDataObject;
 
             throw new NodeApiError(this.getNode(), errorInfo as JsonObject, {
                 message:
@@ -113,11 +118,11 @@ export async function supermetricsRequest(
 
         // http 200 but response contains error
         if (response?.error) {
-            const errorInfo = response.error;
+            const errorInfo = response.error as IDataObject;
             throw new NodeApiError(this.getNode(), response as JsonObject, {
                 message:
                     'Supermetrics query error: ' +
-                    (errorInfo.description || errorInfo.message || errorInfo.code || '') +
+                    (errorInfo['description'] || errorInfo['message'] || errorInfo['code'] || '') +
                     (DEBUG_MODE ? ' ' + (body ? JSON.stringify(body) : JSON.stringify(qs)) : ''),
             });
         }
@@ -137,7 +142,7 @@ export async function supermetricsGetRequest(
     endpoint: string,
     payload: IDataObject = {},
     options: Partial<IHttpRequestOptions> = {},
-): Promise<any> {
+): Promise<IDataObject> {
     const qs: IDataObject = {};
     if (Object.keys(payload).length) {
         qs.json = stableStringify(payload);
@@ -154,7 +159,7 @@ export async function supermetricsPostRequest(
     endpoint: string,
     payload: IDataObject = {},
     options: Partial<IHttpRequestOptions> = {},
-): Promise<any> {
+): Promise<IDataObject> {
     return supermetricsRequest.call(this, 'POST', endpoint, payload, {}, options);
 }
 
@@ -163,25 +168,28 @@ export async function supermetricsPostRequest(
  * NOTE: Only fields split by row are supported for mapping. If a field has no data_column,
  * it’s likely split by column (pivoted) and isn’t mapped here.
  */
-export function mapDefaultJsonRowsToItems(apiResponse: any): IDataObject[] {
+export function mapDefaultJsonRowsToItems(apiResponse: IDataObject): IDataObject[] {
     const items: IDataObject[] = [];
 
     if (!apiResponse?.data || !Array.isArray(apiResponse.data)) return items;
 
-    const fields = apiResponse?.meta?.query?.fields ?? [];
+    const meta = apiResponse?.meta as IDataObject | undefined;
+    const query = meta?.query as IDataObject | undefined;
+    const fields = (query?.fields ?? []) as IDataObject[];
     const indexToKey: string[] = [];
     for (const f of fields) {
         if (typeof f?.data_column === 'number') {
             // prefer requested id; fall back to internal field_id
-            indexToKey[f.data_column] = f?.field_name ?? f?.id ?? f?.field_id ?? `col_${f.data_column}`;
+            indexToKey[f.data_column] = (f?.field_name ?? f?.id ?? f?.field_id ?? `col_${f.data_column}`) as string;
         }
     }
 
-    for (const row of apiResponse.data as any[]) {
+    for (const row of apiResponse.data as unknown[]) {
+        const cells = row as unknown[];
         const obj: IDataObject = {};
-        for (let i = 0; i < row.length; i++) {
+        for (let i = 0; i < cells.length; i++) {
             const key = indexToKey[i] ?? `col_${i}`;
-            obj[key] = row[i];
+            obj[key] = cells[i] as IDataObject[string];
         }
         items.push(obj);
     }
@@ -192,24 +200,24 @@ export function mapDefaultJsonRowsToItems(apiResponse: any): IDataObject[] {
 // ----------------------
 // Simple in-memory cache
 // ----------------------
-type CacheEntry = { value: any; expires: number };
+type CacheEntry = { value: IDataObject; expires: number };
 const CACHE: Record<string, CacheEntry> = {};
 const CACHE_MAX_ENTRIES = 500;
 
-function stableStringify(obj: any): string {
+function stableStringify(obj: IDataObject): string {
     if (!obj || typeof obj !== 'object') return JSON.stringify(obj);
     const keys = Object.keys(obj).sort();
-    const sorted: any = {};
+    const sorted: IDataObject = {};
     for (const k of keys) sorted[k] = obj[k];
     return JSON.stringify(sorted);
 }
 
-function makeCacheKey(method: string, url: string, body: any, qs: any, override?: string): string {
+function makeCacheKey(method: string, url: string, body: IDataObject, qs: IDataObject, override?: string): string {
     if (override) return override;
     return `${method} ${url} | qs=${stableStringify(qs)} | body=${stableStringify(body)}`;
 }
 
-function cacheGet(key: string): any | undefined {
+function cacheGet(key: string): IDataObject | undefined {
     const entry = CACHE[key];
     if (!entry) return undefined;
     if (Date.now() > entry.expires) {
@@ -219,7 +227,7 @@ function cacheGet(key: string): any | undefined {
     return entry.value;
 }
 
-function cacheSet(key: string, value: any, ttlMs: number) {
+function cacheSet(key: string, value: IDataObject, ttlMs: number) {
 
     if (!Number.isFinite(ttlMs) || ttlMs <= 0) return;
 

@@ -1,5 +1,5 @@
 import type { OperationHandler } from './types';
-import  { type INodeExecutionData, NodeOperationError } from 'n8n-workflow';
+import  { type IDataObject, type INodeExecutionData, NodeOperationError } from 'n8n-workflow';
 import { fetchAccounts } from '../fetchers';
 
 export const getAccounts: OperationHandler = async (context, i) => {
@@ -8,8 +8,8 @@ export const getAccounts: OperationHandler = async (context, i) => {
 
     const out: INodeExecutionData[] = [];
 
-    for (const login of data as any[]) {
-        for (const acc of login?.accounts ?? []) {
+    for (const login of data as IDataObject[]) {
+        for (const acc of (login?.accounts ?? []) as IDataObject[]) {
             out.push({
                 json: {
                     ds_user: login.ds_user,

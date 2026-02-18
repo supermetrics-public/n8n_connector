@@ -23,10 +23,11 @@ export const getData: OperationHandler = async (context, i) => {
                 Object.assign(params, context.getNodeParameter(name, i, {}));
                 break;
             case 'ds_accounts':
-            case 'fields':
+            case 'fields': {
                 const rawValue = context.getNodeParameter(name, i, '') as string | string[];
                 params[name] = typeof rawValue === 'string' ? rawValue.split(',') : rawValue;
                 break;
+            }
             default:
                 params[name] = context.getNodeParameter(name, i, '') as string;
         }
@@ -48,15 +49,15 @@ export const getData: OperationHandler = async (context, i) => {
 
         for (const r of mapDefaultJsonRowsToItems(res)) out.push({json: r});
 
-        let nextUrl = res?.meta?.paginate?.next as string | null | undefined;
+        let nextUrl = (((res?.meta as IDataObject)?.paginate as IDataObject)?.next as string) ?? null;
         while (nextUrl) {
             const page = await supermetricsRequest.call(context, 'GET', nextUrl);
             for (const r of mapDefaultJsonRowsToItems(page)) out.push({json: r});
-            nextUrl = page?.meta?.paginate?.next ?? null;
+            nextUrl = (((page?.meta as IDataObject)?.paginate as IDataObject)?.next as string) ?? null;
         }
 
         return out;
     } catch (error) {
-        throw new NodeApiError(context.getNode(), (error as any) as JsonObject);
+        throw new NodeApiError(context.getNode(), error as JsonObject);
     }
 };
