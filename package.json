@@ -52,5 +52,9 @@
     "credentials": [
       "dist/credentials/SupermetricsApi.credentials.js"
     ]
+  },
+  "volta": {
+    "node": "22.22.1",
+    "npm": "10.9.5"
   }
 }
