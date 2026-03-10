@@ -39,8 +39,8 @@
   },
   "devDependencies": {
     "@n8n/node-cli": "*",
-    "@types/node": "^24.11.0",
-    "eslint": "^9.39.3",
+    "@types/node": "^25.4.0",
+    "eslint": "^10.0.3",
     "husky": "^9.1.7",
     "typescript": "^5.9.3"
   },
