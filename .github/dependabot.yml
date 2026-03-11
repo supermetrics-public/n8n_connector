@@ -9,6 +9,9 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    ignore:
+      # @types/node major version must match the project's Node.js version (see volta.node in package.json)
+      - dependency-name: "@types/node"
     groups:
       npm-deps:
         patterns:
