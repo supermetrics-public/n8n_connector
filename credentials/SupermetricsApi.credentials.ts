@@ -35,10 +35,7 @@ export class SupermetricsApi implements ICredentialType {
     test: ICredentialTestRequest = {
         request: {
             baseURL: 'https://api.supermetrics.com',
-            url: '/query/history',
-            qs: {
-                ds_ids: 'AC',
-            },
+            url: '/me',
         },
     };
 }
