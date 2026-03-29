@@ -8,6 +8,8 @@ export const USER_AGENT = 'sm-n8n-node/'+version;
     3. Don't have a report type selection
     4. Don't have important data source specific settings
  */
-export const ALLOWED_DATA_SOURCE_IDS = new Set(["AC", "ADA", "ADF", "ADM", "ADR", "ASA", "ASC", "AW", "BW", "CRI", "DBM", "DFA", "DFP", "DFS", "FA", "FAN", "FB", "GAWA", "GMB", "GW", "HS", "IGI", "KLAV", "LIA", "LIP", "MARK", "MC", "MFSC", "MGO", "OBA", "OPT", "PIA", "QA", "SCM", "SF", "SFMC", "SFP", "SFPS", "SHP", "STAC", "TA", "TEST", "TIK", "TTD", "VDSP", "WOO", "YAD", "YAM", "YG", "YT"]);
+export const ALLOWED_DATA_SOURCE_IDS = new Set(["AC", "ADA", "ADF", "ADM", "ADR", "ASA", "ASC", "AW", "BW", "CELTR", "CLKFY", "CM", "CRI", "DBM", "DFA", "DFP", "DFS", "FA", "FAN", "FB", "FBBM", "GAAE", "GAWA", "GMB",
+    "GONG", "GSCC2", "GW", "HS", "IAS", "IGI", "KLAV", "LAZAD", "LIA", "LINEA", "LIP", "MARK", "MC", "MELT", "MFSC", "MGO", "MIX", "MOLOC", "OBA", "OPT", "PIA", "PIWIK",
+    "PLAUS", "QA", "RDA", "SCM", "SF", "SFMC", "SFP", "SFPS", "SHP", "SPA", "STAC", "TA", "TIK", "TTD", "VDSP", "WOO", "XING", "YAD", "YAM", "YDA", "YG", "YT", "ZEMA"]);
 export const CACHE_DEFAULT_TTL_SECONDS = 3600;
 export const DEBUG_MODE = false;
