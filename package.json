@@ -34,6 +34,9 @@
       "pre-commit": "npm install --package-lock-only"
     }
   },
+  "overrides": {
+    "lodash": ">=4.18.1"
+  },
   "peerDependencies": {
     "n8n-workflow": "*"
   },
